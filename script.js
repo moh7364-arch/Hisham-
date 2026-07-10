@@ -5,7 +5,6 @@ const ADMIN_PASSWORD = 'kaleem7364';
 const ADMIN_USER = 'admin';
 const TOTAL_QUESTIONS = 34;
 
-// Company definitions
 const COMPANIES = {
     nado: {
         id: 'nado',
@@ -25,7 +24,6 @@ const COMPANIES = {
     }
 };
 
-// Dimension mapping
 const DIMENSIONS = {
     expert: { label: 'الأنظمة الخبيرة', qids: [1,2,3,4], color: '#2E86AB' },
     ml: { label: 'تعلم الآلة', qids: [5,6,7,8], color: '#D4A373' },
@@ -44,8 +42,8 @@ const DIMENSIONS = {
 // ============================================================
 let responses = [];
 let currentCharts = [];
-let currentCompany = null; // null = all companies, 'nado', 'mills'
-let filterCompany = 'all'; // for admin dashboard
+let currentCompany = null;
+let filterCompany = 'all';
 
 // ============================================================
 // DOM REFS
@@ -55,10 +53,10 @@ const surveyView = document.getElementById('surveyView');
 const loginView = document.getElementById('loginView');
 const adminView = document.getElementById('adminView');
 
+const bannerIcon = document.getElementById('bannerIcon');
+const bannerName = document.getElementById('bannerName');
+const bannerSub = document.getElementById('bannerSub');
 const companyBanner = document.getElementById('companyBanner');
-const companyIcon = document.getElementById('companyIcon');
-const companyName = document.getElementById('companyName');
-const companySub = document.getElementById('companySub');
 
 const submitBtn = document.getElementById('submitSurvey');
 const loginBtn = document.getElementById('loginBtn');
@@ -91,18 +89,21 @@ function selectCompany(companyId) {
     if (!company) return;
 
     currentCompany = companyId;
-    
+
     // Update banner
-    companyIcon.innerHTML = `<i class="fas ${company.icon}"></i>`;
-    companyName.textContent = company.name;
-    companySub.textContent = company.shortName;
+    bannerIcon.innerHTML = `<i class="fas ${company.icon}"></i>`;
+    bannerName.textContent = company.name;
+    bannerSub.textContent = company.shortName;
     companyBanner.style.borderRight = `5px solid ${company.color}`;
 
-    // Hide selector, show survey
+    // Show survey, hide selector
     companySelector.classList.add('hidden');
     surveyView.classList.remove('hidden');
     loginView.classList.add('hidden');
     adminView.classList.add('hidden');
+
+    // Reset form
+    document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
 }
 
 function showCompanySelector() {
@@ -122,7 +123,7 @@ function showAdminLogin() {
 }
 
 // ============================================================
-// UTILITY FUNCTIONS
+// UTILITY
 // ============================================================
 function getRadioValue(name) {
     const el = document.querySelector(`input[name="${name}"]:checked`);
@@ -211,7 +212,7 @@ function submitSurvey() {
 
     // Reset form
     document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
-    
+
     alert('✅ تم إرسال الاستبيان بنجاح. شكراً لك!');
 }
 
@@ -242,12 +243,12 @@ function showAdmin() {
 }
 
 // ============================================================
-// RENDER ADMIN DASHBOARD
+// RENDER ADMIN
 // ============================================================
 function renderAdmin() {
-    const filteredResponses = getResponsesByCompany(filterCompany);
-    
-    if (filteredResponses.length === 0) {
+    const data = getResponsesByCompany(filterCompany);
+
+    if (data.length === 0) {
         statsGrid.innerHTML = `<div class="stat-card"><div class="stat-number">0</div><div class="stat-label">لا توجد استجابات</div></div>`;
         tableBody.innerHTML = `<tr><td colspan="8" style="padding:30px;">لا توجد بيانات لعرضها</td></tr>`;
         summaryContent.innerHTML = '<p style="text-align:center;color:#6a8aa0;padding:20px;">لا توجد بيانات كافية للإحصاء</p>';
@@ -256,7 +257,6 @@ function renderAdmin() {
         return;
     }
 
-    // Update summary label
     if (filterCompany === 'all') {
         summaryCompanyLabel.innerHTML = '<i class="fas fa-building"></i> جميع الشركات';
     } else {
@@ -264,15 +264,15 @@ function renderAdmin() {
         summaryCompanyLabel.innerHTML = `<i class="fas ${company.icon}"></i> ${company.name}`;
     }
 
-    renderStats(filteredResponses);
-    renderTable(filteredResponses);
-    renderStatistics(filteredResponses);
-    renderCharts(filteredResponses);
+    renderStats(data);
+    renderTable(data);
+    renderStatistics(data);
+    renderCharts(data);
     renderComparison();
 }
 
 // ============================================================
-// STATS
+// RENDER STATS
 // ============================================================
 function renderStats(data) {
     const total = data.length;
@@ -290,16 +290,14 @@ function renderStats(data) {
     data.forEach(r => {
         if (r.gender && genderDist.hasOwnProperty(r.gender)) genderDist[r.gender]++;
         if (r.qualification && qualDist.hasOwnProperty(r.qualification)) qualDist[r.qualification]++;
-        if (r.company) {
-            companyDist[r.company] = (companyDist[r.company] || 0) + 1;
-        }
+        if (r.company) companyDist[r.company] = (companyDist[r.company] || 0) + 1;
     });
 
     let companyStats = '';
     Object.entries(companyDist).forEach(([id, count]) => {
         const comp = COMPANIES[id];
         if (comp) {
-            companyStats += `<span style="display:inline-flex;align-items:center;gap:4px;margin:0 6px;">
+            companyStats += `<span style="display:inline-flex;align-items:center;gap:4px;margin:0 4px;">
                 <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${comp.color};"></span>
                 ${comp.shortName}: ${count}
             </span>`;
@@ -307,35 +305,17 @@ function renderStats(data) {
     });
 
     statsGrid.innerHTML = `
-        <div class="stat-card accent-blue">
-            <div class="stat-number">${total}</div>
-            <div class="stat-label">إجمالي الاستجابات</div>
-        </div>
-        <div class="stat-card accent-green">
-            <div class="stat-number">${completed}</div>
-            <div class="stat-label">مكتملة</div>
-        </div>
-        <div class="stat-card accent-blue">
-            <div class="stat-number">${genderDist.ذكر}</div>
-            <div class="stat-label">ذكور</div>
-        </div>
-        <div class="stat-card accent-orange">
-            <div class="stat-number">${genderDist.أنثى}</div>
-            <div class="stat-label">إناث</div>
-        </div>
-        <div class="stat-card accent-blue">
-            <div class="stat-number">${qualDist.بكالوريوس}</div>
-            <div class="stat-label">بكالوريوس</div>
-        </div>
-        <div class="stat-card accent-green" style="grid-column: span 1;">
-            <div class="stat-number" style="font-size:1.2rem;">${companyStats}</div>
-            <div class="stat-label">توزيع الشركات</div>
-        </div>
+        <div class="stat-card accent-blue"><div class="stat-number">${total}</div><div class="stat-label">إجمالي الاستجابات</div></div>
+        <div class="stat-card accent-green"><div class="stat-number">${completed}</div><div class="stat-label">مكتملة</div></div>
+        <div class="stat-card accent-blue"><div class="stat-number">${genderDist.ذكر}</div><div class="stat-label">ذكور</div></div>
+        <div class="stat-card accent-orange"><div class="stat-number">${genderDist.أنثى}</div><div class="stat-label">إناث</div></div>
+        <div class="stat-card accent-blue"><div class="stat-number">${qualDist.بكالوريوس}</div><div class="stat-label">بكالوريوس</div></div>
+        <div class="stat-card accent-green"><div class="stat-number" style="font-size:1rem;">${companyStats || '0'}</div><div class="stat-label">توزيع الشركات</div></div>
     `;
 }
 
 // ============================================================
-// TABLE
+// RENDER TABLE
 // ============================================================
 function renderTable(data) {
     const search = tableSearch.value.toLowerCase();
@@ -369,7 +349,7 @@ function renderTable(data) {
         const avg = count > 0 ? (sum / count).toFixed(2) : '-';
 
         const company = COMPANIES[r.company];
-        const compDisplay = company ? 
+        const compDisplay = company ?
             `<span style="display:inline-flex;align-items:center;gap:4px;">
                 <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${company.color};"></span>
                 ${company.shortName}
@@ -385,7 +365,7 @@ function renderTable(data) {
                 <td>${r.experience || '-'}</td>
                 <td><strong>${avg}</strong></td>
                 <td>
-                    <button class="btn btn-outline" style="padding:4px 16px;font-size:0.8rem;min-width:auto;" 
+                    <button class="btn btn-outline" style="padding:2px 12px;font-size:0.75rem;min-width:auto;"
                             onclick="alert('${JSON.stringify(r.answers).replace(/"/g,'&quot;')}')">
                         <i class="fas fa-eye"></i>
                     </button>
@@ -397,26 +377,15 @@ function renderTable(data) {
 }
 
 // ============================================================
-// STATISTICS
+// RENDER STATISTICS
 // ============================================================
 function renderStatistics(data) {
-    // Per-question calculations
     const qMeans = {};
-    const qStds = {};
     for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
         const vals = data.map(r => r.answers[i]).filter(v => v !== null && v !== undefined);
-        if (vals.length > 0) {
-            const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
-            const variance = vals.reduce((a, b) => a + (b - mean) ** 2, 0) / vals.length;
-            qMeans[i] = mean;
-            qStds[i] = Math.sqrt(variance);
-        } else {
-            qMeans[i] = 0;
-            qStds[i] = 0;
-        }
+        qMeans[i] = vals.length > 0 ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
     }
 
-    // Dimension calculations
     const dimData = {};
     for (const [dim, info] of Object.entries(DIMENSIONS)) {
         const qids = info.qids;
@@ -457,17 +426,9 @@ function renderStatistics(data) {
             if (isNaN(alpha) || !isFinite(alpha)) alpha = 0;
         }
 
-        dimData[dim] = {
-            label: info.label,
-            qids: qids,
-            mean: mean,
-            std: std,
-            alpha: alpha,
-            color: info.color
-        };
+        dimData[dim] = { label: info.label, qids: qids, mean: mean, std: std, alpha: alpha, color: info.color };
     }
 
-    // Overall Alpha
     const allSums = data.map(r => {
         let s = 0, c = 0;
         for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
@@ -494,75 +455,52 @@ function renderStatistics(data) {
         if (isNaN(overallAlpha) || !isFinite(overallAlpha)) overallAlpha = 0;
     }
 
-    // Sort dimensions
     const sortedDims = Object.entries(dimData).sort((a, b) => b[1].mean - a[1].mean);
 
     let html = `
         <table class="summary-table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>البعد</th>
-                    <th>المتوسط</th>
-                    <th>الانحراف المعياري</th>
-                    <th>ألفا كرونباخ</th>
-                    <th>عدد الأسئلة</th>
-                </tr>
-            </thead>
+            <thead><tr><th>#</th><th>البعد</th><th>المتوسط</th><th>الانحراف المعياري</th><th>ألفا كرونباخ</th><th>عدد الأسئلة</th></tr></thead>
             <tbody>
     `;
 
-    sortedDims.forEach(([dim, dataItem], index) => {
-        const alphaClass = dataItem.alpha >= 0.7 ? 'alpha-good' : (dataItem.alpha >= 0.5 ? 'alpha-acceptable' : 'alpha-poor');
+    sortedDims.forEach(([dim, d], index) => {
+        const alphaClass = d.alpha >= 0.7 ? 'alpha-good' : (d.alpha >= 0.5 ? 'alpha-acceptable' : 'alpha-poor');
         html += `
             <tr>
                 <td><span class="rank-number">${index + 1}</span></td>
-                <td>
-                    <div class="dimension-cell">
-                        <span class="color-dot" style="background:${dataItem.color};"></span>
-                        ${dataItem.label}
-                    </div>
-                </td>
-                <td><strong>${dataItem.mean.toFixed(2)}</strong></td>
-                <td>${dataItem.std.toFixed(3)}</td>
-                <td><span class="alpha-value ${alphaClass}">${dataItem.alpha.toFixed(4)}</span></td>
-                <td>${dataItem.qids.length}</td>
+                <td><div class="dimension-cell"><span class="color-dot" style="background:${d.color};"></span>${d.label}</div></td>
+                <td><strong>${d.mean.toFixed(2)}</strong></td>
+                <td>${d.std.toFixed(3)}</td>
+                <td><span class="alpha-value ${alphaClass}">${d.alpha.toFixed(4)}</span></td>
+                <td>${d.qids.length}</td>
             </tr>
         `;
     });
 
     const overallAlphaClass = overallAlpha >= 0.7 ? 'alpha-good' : (overallAlpha >= 0.5 ? 'alpha-acceptable' : 'alpha-poor');
     html += `
-            <tr style="background: #eef4fa; font-weight: 700;">
-                <td colspan="2" style="text-align: left; padding-right: 20px;">
-                    <i class="fas fa-crown" style="color: #f3a712;"></i>
-                    الإجمالي (جميع الأبعاد)
-                </td>
+            <tr style="background:#eef4fa;font-weight:700;">
+                <td colspan="2" style="text-align:left;padding-right:20px;"><i class="fas fa-crown" style="color:#f3a712;"></i> الإجمالي (جميع الأبعاد)</td>
                 <td>${(Object.values(dimData).reduce((a, d) => a + d.mean, 0) / Object.keys(dimData).length).toFixed(2)}</td>
                 <td>${(Object.values(dimData).reduce((a, d) => a + d.std, 0) / Object.keys(dimData).length).toFixed(3)}</td>
                 <td><span class="alpha-value ${overallAlphaClass}">${overallAlpha.toFixed(4)}</span></td>
                 <td>${TOTAL_QUESTIONS}</td>
             </tr>
-    `;
-
-    html += `
-            <tr style="background: #f8faff;">
-                <td colspan="6" style="text-align: right; padding: 10px 20px; font-size: 0.85rem; color: #4a6680;">
-                    <i class="fas fa-info-circle" style="color: #1a5c9e;"></i>
+            <tr style="background:#f8faff;">
+                <td colspan="6" style="text-align:right;padding:8px 20px;font-size:0.8rem;color:#4a6680;">
+                    <i class="fas fa-info-circle" style="color:var(--primary);"></i>
                     عدد الاستجابات: <strong>${data.length}</strong> &nbsp;|&nbsp;
                     عدد الأسئلة الكلي: <strong>${TOTAL_QUESTIONS}</strong> &nbsp;|&nbsp;
                     عدد الأبعاد: <strong>${Object.keys(DIMENSIONS).length}</strong>
                 </td>
             </tr>
     `;
-
     html += `</tbody></table>`;
-
     summaryContent.innerHTML = html;
 }
 
 // ============================================================
-// COMPARISON
+// RENDER COMPARISON
 // ============================================================
 function renderComparison() {
     const companyIds = ['nado', 'mills'];
@@ -573,7 +511,6 @@ function renderComparison() {
         const data = getResponsesByCompany(id);
         const count = data.length;
 
-        // Calculate average for each dimension
         const dimMeans = {};
         for (const [dim, info] of Object.entries(DIMENSIONS)) {
             const qids = info.qids;
@@ -587,61 +524,42 @@ function renderComparison() {
             dimMeans[dim] = allVals.length > 0 ? allVals.reduce((a, b) => a + b, 0) / allVals.length : 0;
         }
 
-        const overallMean = Object.values(dimMeans).reduce((a, b) => a + b, 0) / Object.keys(dimMeans).length;
-
-        // Get top dimension
+        const overallMean = Object.values(dimMeans).reduce((a, b) => a + b, 0) / Object.keys(dimMeans).length || 0;
         const sorted = Object.entries(dimMeans).sort((a, b) => b[1] - a[1]);
         const topDim = sorted.length > 0 ? DIMENSIONS[sorted[0][0]]?.label || '-' : '-';
 
         html += `
-            <div class="comparison-card" style="border-top: 4px solid ${company.color};">
+            <div class="comparison-card" style="border-top:4px solid ${company.color};">
                 <div class="comp-header">
-                    <div class="comp-icon" style="background:${company.gradient};">
-                        <i class="fas ${company.icon}"></i>
-                    </div>
-                    <div>
-                        <div class="comp-name">${company.shortName}</div>
-                        <div style="font-size:0.75rem;color:#4a6680;">${count} استجابة</div>
-                    </div>
+                    <div class="comp-icon" style="background:${company.gradient};"><i class="fas ${company.icon}"></i></div>
+                    <div><div class="comp-name">${company.shortName}</div><div style="font-size:0.75rem;color:#4a6680;">${count} استجابة</div></div>
                 </div>
                 <div class="comp-stats">
-                    <div class="comp-stat">
-                        <strong>${overallMean.toFixed(2)}</strong>
-                        المتوسط الكلي
-                    </div>
-                    <div class="comp-stat">
-                        <strong>${topDim}</strong>
-                        أعلى بعد
-                    </div>
-                    <div class="comp-stat">
-                        <strong>${Object.keys(dimMeans).length}</strong>
-                        عدد الأبعاد
-                    </div>
-                    <div class="comp-stat">
-                        <strong>${count > 0 ? '✓' : '✗'}</strong>
-                        حالة البيانات
-                    </div>
+                    <div class="comp-stat"><strong>${overallMean.toFixed(2)}</strong>المتوسط الكلي</div>
+                    <div class="comp-stat"><strong>${topDim}</strong>أعلى بعد</div>
+                    <div class="comp-stat"><strong>${Object.keys(dimMeans).length}</strong>عدد الأبعاد</div>
+                    <div class="comp-stat"><strong>${count > 0 ? '✓' : '✗'}</strong>حالة البيانات</div>
                 </div>
             </div>
         `;
     });
 
     if (companyIds.every(id => getResponsesByCompany(id).length === 0)) {
-        html = '<p style="text-align:center;color:#6a8aa0;padding:30px;">لا توجد بيانات كافية للمقارنة بين الشركات</p>';
+        html = '<p style="text-align:center;color:#6a8aa0;padding:20px;">لا توجد بيانات كافية للمقارنة بين الشركات</p>';
     }
 
     comparisonContainer.innerHTML = html;
 }
 
 // ============================================================
-// CHARTS
+// RENDER CHARTS
 // ============================================================
 function renderCharts(data) {
     currentCharts.forEach(c => c.destroy());
     currentCharts = [];
     chartContainer.innerHTML = '';
 
-    // 1. Gender Distribution
+    // Gender
     const genderCount = { ذكر: 0, أنثى: 0 };
     data.forEach(r => { if (r.gender && genderCount.hasOwnProperty(r.gender)) genderCount[r.gender]++; });
 
@@ -649,25 +567,18 @@ function renderCharts(data) {
     div1.className = 'chart-box';
     div1.innerHTML = `<h4><i class="fas fa-venus-mars"></i> توزيع الجنس</h4><canvas id="chartGender"></canvas>`;
     chartContainer.appendChild(div1);
-
     const ctx1 = document.getElementById('chartGender').getContext('2d');
     const chart1 = new Chart(ctx1, {
         type: 'doughnut',
-        data: {
-            labels: ['ذكر', 'أنثى'],
-            datasets: [{ data: [genderCount.ذكر, genderCount.أنثى], backgroundColor: ['#1a5c9e', '#e8858a'] }]
-        },
+        data: { labels: ['ذكر', 'أنثى'], datasets: [{ data: [genderCount.ذكر, genderCount.أنثى], backgroundColor: ['#1a5c9e', '#e8858a'] }] },
         options: { plugins: { legend: { position: 'bottom', labels: { font: { family: 'Tajawal' } } } } }
     });
     currentCharts.push(chart1);
 
-    // 2. Company Distribution (if showing all)
+    // Company distribution (if all)
     if (filterCompany === 'all') {
         const compCount = {};
-        data.forEach(r => {
-            if (r.company) compCount[r.company] = (compCount[r.company] || 0) + 1;
-        });
-
+        data.forEach(r => { if (r.company) compCount[r.company] = (compCount[r.company] || 0) + 1; });
         const labels = Object.keys(compCount).map(id => COMPANIES[id]?.shortName || id);
         const values = Object.values(compCount);
         const colors = Object.keys(compCount).map(id => COMPANIES[id]?.color || '#6a8aa0');
@@ -676,20 +587,16 @@ function renderCharts(data) {
         div2.className = 'chart-box';
         div2.innerHTML = `<h4><i class="fas fa-building"></i> توزيع الشركات</h4><canvas id="chartCompany"></canvas>`;
         chartContainer.appendChild(div2);
-
         const ctx2 = document.getElementById('chartCompany').getContext('2d');
         const chart2 = new Chart(ctx2, {
             type: 'pie',
-            data: {
-                labels: labels,
-                datasets: [{ data: values, backgroundColor: colors }]
-            },
+            data: { labels: labels, datasets: [{ data: values, backgroundColor: colors }] },
             options: { plugins: { legend: { position: 'bottom', labels: { font: { family: 'Tajawal' } } } } }
         });
         currentCharts.push(chart2);
     }
 
-    // 3. Dimension Means
+    // Dimension Means
     const dimLabels = Object.keys(DIMENSIONS).map(k => DIMENSIONS[k].label);
     const dimMeans = Object.keys(DIMENSIONS).map(k => {
         const qids = DIMENSIONS[k].qids;
@@ -707,19 +614,12 @@ function renderCharts(data) {
     div3.className = 'chart-box';
     div3.innerHTML = `<h4><i class="fas fa-chart-line"></i> متوسطات الأبعاد</h4><canvas id="chartDim"></canvas>`;
     chartContainer.appendChild(div3);
-
     const ctx3 = document.getElementById('chartDim').getContext('2d');
     const chart3 = new Chart(ctx3, {
         type: 'radar',
         data: {
             labels: dimLabels,
-            datasets: [{ 
-                label: 'المتوسط', 
-                data: dimMeans, 
-                backgroundColor: 'rgba(26,92,158,0.2)', 
-                borderColor: '#1a5c9e',
-                pointBackgroundColor: '#1a5c9e'
-            }]
+            datasets: [{ label: 'المتوسط', data: dimMeans, backgroundColor: 'rgba(26,92,158,0.2)', borderColor: '#1a5c9e', pointBackgroundColor: '#1a5c9e' }]
         },
         options: {
             scales: { r: { min: 1, max: 5, ticks: { font: { family: 'Tajawal' } } } },
@@ -734,15 +634,10 @@ function renderCharts(data) {
 // ============================================================
 function filterCompany(companyId) {
     filterCompany = companyId;
-    
-    // Update buttons
     document.querySelectorAll('.filter-company-btn').forEach(btn => {
         btn.classList.remove('active');
-        if (btn.dataset.company === companyId) {
-            btn.classList.add('active');
-        }
+        if (btn.dataset.company === companyId) btn.classList.add('active');
     });
-    
     renderAdmin();
 }
 
@@ -769,21 +664,12 @@ function exportData(format) {
     });
 
     const csvContent = rows.map(row => row.join(',')).join('\n');
-
-    if (format === 'csv') {
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        downloadBlob(blob, 'survey_data.csv');
-    } else if (format === 'excel') {
-        const blob = new Blob(['\uFEFF' + csvContent], { type: 'application/vnd.ms-excel;charset=utf-8;' });
-        downloadBlob(blob, 'survey_data.xls');
-    }
-}
-
-function downloadBlob(blob, filename) {
+    const blob = new Blob([format === 'excel' ? '\uFEFF' + csvContent : csvContent],
+        { type: format === 'excel' ? 'application/vnd.ms-excel;charset=utf-8;' : 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = filename;
+    a.download = format === 'excel' ? 'survey_data.xls' : 'survey_data.csv';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -820,43 +706,31 @@ adminPass.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') loginBtn.click();
 });
 
-logoutAdmin.addEventListener('click', function() {
-    showCompanySelector();
-});
+logoutAdmin.addEventListener('click', showCompanySelector);
 
-// Back buttons
 document.getElementById('backToSurveyFromLogin').addEventListener('click', function() {
-    if (currentCompany) {
-        showSurvey();
-    } else {
-        showCompanySelector();
-    }
+    if (currentCompany) showSurvey();
+    else showCompanySelector();
 });
 
 document.getElementById('backToSurveyFromAdmin').addEventListener('click', function() {
-    if (currentCompany) {
-        showSurvey();
-    } else {
-        showCompanySelector();
-    }
+    if (currentCompany) showSurvey();
+    else showCompanySelector();
 });
 
 applyFilters.addEventListener('click', function() {
-    const data = getResponsesByCompany(filterCompany);
-    renderTable(data);
+    renderTable(getResponsesByCompany(filterCompany));
 });
 
 resetFilters.addEventListener('click', function() {
     tableSearch.value = '';
     filterGender.value = '';
     filterQual.value = '';
-    const data = getResponsesByCompany(filterCompany);
-    renderTable(data);
+    renderTable(getResponsesByCompany(filterCompany));
 });
 
 tableSearch.addEventListener('input', function() {
-    const data = getResponsesByCompany(filterCompany);
-    renderTable(data);
+    renderTable(getResponsesByCompany(filterCompany));
 });
 
 exportExcel.addEventListener('click', function() { exportData('excel'); });
@@ -869,7 +743,6 @@ exportPDF.addEventListener('click', generatePDF);
 loadResponses();
 showCompanySelector();
 
-// Make functions globally accessible
 window.selectCompany = selectCompany;
 window.showCompanySelector = showCompanySelector;
 window.showAdminLogin = showAdminLogin;
