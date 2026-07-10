@@ -11,10 +11,77 @@
 </head>
 <body>
     <!-- ============================================================ -->
+    <!-- ====================== COMPANY SELECTOR ===================== -->
+    <!-- ============================================================ -->
+    <div id="companySelector" class="container">
+        <div class="company-selector-wrapper">
+            <div class="selector-header">
+                <div class="logo-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h1>تأثير تقنيات الذكاء الاصطناعي</h1>
+                <h2>على جودة المعلومات المحاسبية</h2>
+                <p class="selector-subtitle">يرجى اختيار الشركة التي تنتمي إليها</p>
+            </div>
+
+            <div class="company-grid">
+                <div class="company-card" data-company="nado" onclick="selectCompany('nado')">
+                    <div class="company-logo" style="background: linear-gradient(135deg, #2E86AB, #1a6a8a);">
+                        <i class="fas fa-industry"></i>
+                    </div>
+                    <h3>شركة الألبان والأغذية الوطنية</h3>
+                    <p class="company-sub">ناد فود</p>
+                    <div class="company-badge">
+                        <i class="fas fa-check-circle"></i>
+                        اختر هذه الشركة
+                    </div>
+                </div>
+
+                <div class="company-card" data-company="mills" onclick="selectCompany('mills')">
+                    <div class="company-logo" style="background: linear-gradient(135deg, #D4A373, #b8853a);">
+                        <i class="fas fa-wheat-alt"></i>
+                    </div>
+                    <h3>الشركة اليمنية للمطاحن</h3>
+                    <p class="company-sub">وصوامع الغلال</p>
+                    <div class="company-badge">
+                        <i class="fas fa-check-circle"></i>
+                        اختر هذه الشركة
+                    </div>
+                </div>
+            </div>
+
+            <div class="selector-footer">
+                <button class="btn btn-outline" onclick="showAdminLogin()">
+                    <i class="fas fa-user-shield"></i>
+                    لوحة المشرف
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
     <!-- ====================== SURVEY VIEW ========================== -->
     <!-- ============================================================ -->
-    <div id="surveyView" class="container">
-        <!-- ====== HEADER ====== -->
+    <div id="surveyView" class="container hidden">
+        <!-- Company Banner -->
+        <div class="company-banner" id="companyBanner">
+            <div class="company-banner-content">
+                <div class="company-banner-icon" id="companyIcon">
+                    <i class="fas fa-industry"></i>
+                </div>
+                <div>
+                    <span class="company-banner-label">الشركة:</span>
+                    <span class="company-banner-name" id="companyName">شركة الألبان والأغذية الوطنية</span>
+                    <span class="company-banner-sub" id="companySub">ناد فود</span>
+                </div>
+            </div>
+            <button class="btn btn-outline" style="padding:6px 16px;font-size:0.8rem;min-width:auto;" onclick="showCompanySelector()">
+                <i class="fas fa-exchange-alt"></i>
+                تغيير
+            </button>
+        </div>
+
+        <!-- Header -->
         <div class="survey-header">
             <div class="logo-area">
                 <div class="logo-icon">
@@ -74,7 +141,6 @@
             </div>
 
             <div class="personal-data-grid">
-                <!-- Gender -->
                 <div class="personal-card">
                     <div class="card-icon" style="background: linear-gradient(135deg, #2E86AB, #1a6a8a);">
                         <i class="fas fa-venus-mars"></i>
@@ -82,21 +148,12 @@
                     <div class="card-content">
                         <label>الجنس</label>
                         <div class="radio-group">
-                            <label class="radio-option">
-                                <input type="radio" name="gender" value="ذكر">
-                                <span class="radio-custom"></span>
-                                ذكر
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="gender" value="أنثى">
-                                <span class="radio-custom"></span>
-                                أنثى
-                            </label>
+                            <label class="radio-option"><input type="radio" name="gender" value="ذكر"><span class="radio-custom"></span>ذكر</label>
+                            <label class="radio-option"><input type="radio" name="gender" value="أنثى"><span class="radio-custom"></span>أنثى</label>
                         </div>
                     </div>
                 </div>
 
-                <!-- Qualification -->
                 <div class="personal-card">
                     <div class="card-icon" style="background: linear-gradient(135deg, #6A4C93, #4a2f6a);">
                         <i class="fas fa-graduation-cap"></i>
@@ -112,7 +169,6 @@
                     </div>
                 </div>
 
-                <!-- Job Title -->
                 <div class="personal-card">
                     <div class="card-icon" style="background: linear-gradient(135deg, #E07A5F, #b85a3f);">
                         <i class="fas fa-briefcase"></i>
@@ -129,7 +185,6 @@
                     </div>
                 </div>
 
-                <!-- Experience -->
                 <div class="personal-card">
                     <div class="card-icon" style="background: linear-gradient(135deg, #3D8C7A, #2a6a5a);">
                         <i class="fas fa-clock"></i>
@@ -725,9 +780,9 @@
                 <i class="fas fa-paper-plane"></i>
                 إرسال الاستبيان
             </button>
-            <button class="btn btn-outline btn-large" id="goToAdminBtn">
-                <i class="fas fa-user-shield"></i>
-                لوحة المشرف
+            <button class="btn btn-outline btn-large" onclick="showCompanySelector()">
+                <i class="fas fa-building"></i>
+                تغيير الشركة
             </button>
         </div>
 
@@ -773,8 +828,7 @@
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- =================== ADMIN DASHBOARD ======================== -->
+       <!-- =================== ADMIN DASHBOARD ======================== -->
     <!-- ============================================================ -->
     <div id="adminView" class="container hidden">
         <div class="admin-header">
@@ -790,6 +844,22 @@
                 <button class="btn btn-danger" id="logoutAdmin">
                     <i class="fas fa-sign-out-alt"></i>
                     خروج
+                </button>
+            </div>
+        </div>
+
+        <!-- Company Filter -->
+        <div class="company-filter-bar">
+            <label><i class="fas fa-building"></i> تصفية حسب الشركة:</label>
+            <div class="company-filter-buttons">
+                <button class="btn btn-primary filter-company-btn active" data-company="all" onclick="filterCompany('all')">
+                    <i class="fas fa-asterisk"></i> الكل
+                </button>
+                <button class="btn btn-outline filter-company-btn" data-company="nado" onclick="filterCompany('nado')">
+                    <i class="fas fa-industry"></i> ناد فود
+                </button>
+                <button class="btn btn-outline filter-company-btn" data-company="mills" onclick="filterCompany('mills')">
+                    <i class="fas fa-wheat-alt"></i> المطاحن
                 </button>
             </div>
         </div>
@@ -835,6 +905,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>الشركة</th>
                         <th>الجنس</th>
                         <th>المؤهل</th>
                         <th>المسمى</th>
@@ -852,8 +923,22 @@
             <div class="summary-header">
                 <i class="fas fa-calculator"></i>
                 <h3>الملخص الإحصائي</h3>
+                <span id="summaryCompanyLabel" style="margin-right:auto;font-size:0.85rem;color:#4a6680;">
+                    <i class="fas fa-building"></i> جميع الشركات
+                </span>
             </div>
             <div id="summaryContent"></div>
+        </div>
+
+        <!-- Company Comparison -->
+        <div class="comparison-section">
+            <div class="comparison-header">
+                <i class="fas fa-chart-simple"></i>
+                <h3>مقارنة بين الشركات</h3>
+            </div>
+            <div class="comparison-grid" id="comparisonContainer">
+                <!-- سيتم إنشاء بطاقات المقارنة بواسطة JavaScript -->
+            </div>
         </div>
 
         <!-- Charts -->
@@ -890,4 +975,4 @@
 
     <script src="script.js"></script>
 </body>
-                                                                                         </html>
+</html>
