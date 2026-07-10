@@ -5,7 +5,27 @@ const ADMIN_PASSWORD = 'kaleem7364';
 const ADMIN_USER = 'admin';
 const TOTAL_QUESTIONS = 34;
 
-// Dimension mapping with colors
+// Company definitions
+const COMPANIES = {
+    nado: {
+        id: 'nado',
+        name: 'شركة الألبان والأغذية الوطنية',
+        shortName: 'ناد فود',
+        icon: 'fa-industry',
+        color: '#2E86AB',
+        gradient: 'linear-gradient(135deg, #2E86AB, #1a6a8a)'
+    },
+    mills: {
+        id: 'mills',
+        name: 'الشركة اليمنية للمطاحن وصوامع الغلال',
+        shortName: 'المطاحن',
+        icon: 'fa-wheat-alt',
+        color: '#D4A373',
+        gradient: 'linear-gradient(135deg, #D4A373, #b8853a)'
+    }
+};
+
+// Dimension mapping
 const DIMENSIONS = {
     expert: { label: 'الأنظمة الخبيرة', qids: [1,2,3,4], color: '#2E86AB' },
     ml: { label: 'تعلم الآلة', qids: [5,6,7,8], color: '#D4A373' },
@@ -24,19 +44,23 @@ const DIMENSIONS = {
 // ============================================================
 let responses = [];
 let currentCharts = [];
+let currentCompany = null; // null = all companies, 'nado', 'mills'
+let filterCompany = 'all'; // for admin dashboard
 
 // ============================================================
 // DOM REFS
 // ============================================================
+const companySelector = document.getElementById('companySelector');
 const surveyView = document.getElementById('surveyView');
 const loginView = document.getElementById('loginView');
 const adminView = document.getElementById('adminView');
 
-const submitBtn = document.getElementById('submitSurvey');
-const goToAdminBtn = document.getElementById('goToAdminBtn');
-const backToSurveyFromLogin = document.getElementById('backToSurveyFromLogin');
-const backToSurveyFromAdmin = document.getElementById('backToSurveyFromAdmin');
+const companyBanner = document.getElementById('companyBanner');
+const companyIcon = document.getElementById('companyIcon');
+const companyName = document.getElementById('companyName');
+const companySub = document.getElementById('companySub');
 
+const submitBtn = document.getElementById('submitSurvey');
 const loginBtn = document.getElementById('loginBtn');
 const adminUser = document.getElementById('adminUser');
 const adminPass = document.getElementById('adminPass');
@@ -46,6 +70,8 @@ const statsGrid = document.getElementById('statsGrid');
 const tableBody = document.getElementById('tableBody');
 const summaryContent = document.getElementById('summaryContent');
 const chartContainer = document.getElementById('chartContainer');
+const comparisonContainer = document.getElementById('comparisonContainer');
+const summaryCompanyLabel = document.getElementById('summaryCompanyLabel');
 
 const tableSearch = document.getElementById('tableSearch');
 const filterGender = document.getElementById('filterGender');
@@ -56,6 +82,44 @@ const resetFilters = document.getElementById('resetFilters');
 const exportExcel = document.getElementById('exportExcel');
 const exportCSV = document.getElementById('exportCSV');
 const exportPDF = document.getElementById('exportPDF');
+
+// ============================================================
+// COMPANY SELECTION
+// ============================================================
+function selectCompany(companyId) {
+    const company = COMPANIES[companyId];
+    if (!company) return;
+
+    currentCompany = companyId;
+    
+    // Update banner
+    companyIcon.innerHTML = `<i class="fas ${company.icon}"></i>`;
+    companyName.textContent = company.name;
+    companySub.textContent = company.shortName;
+    companyBanner.style.borderRight = `5px solid ${company.color}`;
+
+    // Hide selector, show survey
+    companySelector.classList.add('hidden');
+    surveyView.classList.remove('hidden');
+    loginView.classList.add('hidden');
+    adminView.classList.add('hidden');
+}
+
+function showCompanySelector() {
+    currentCompany = null;
+    companySelector.classList.remove('hidden');
+    surveyView.classList.add('hidden');
+    loginView.classList.add('hidden');
+    adminView.classList.add('hidden');
+}
+
+function showAdminLogin() {
+    companySelector.classList.add('hidden');
+    surveyView.classList.add('hidden');
+    loginView.classList.remove('hidden');
+    adminView.classList.add('hidden');
+    adminPass.value = '';
+}
 
 // ============================================================
 // UTILITY FUNCTIONS
@@ -70,7 +134,8 @@ function getPersonalData() {
         gender: getRadioValue('gender'),
         qualification: getRadioValue('qualification'),
         jobTitle: getRadioValue('jobTitle'),
-        experience: getRadioValue('experience')
+        experience: getRadioValue('experience'),
+        company: currentCompany
     };
 }
 
@@ -85,10 +150,16 @@ function getAllAnswers() {
 
 function isSurveyComplete(personal, answers) {
     if (!personal.gender || !personal.qualification || !personal.jobTitle || !personal.experience) return false;
+    if (!personal.company) return false;
     for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
         if (answers[i] === null || answers[i] === undefined) return false;
     }
     return true;
+}
+
+function getResponsesByCompany(companyId) {
+    if (companyId === 'all') return responses;
+    return responses.filter(r => r.company === companyId);
 }
 
 // ============================================================
@@ -111,6 +182,11 @@ function saveResponses() {
 // SUBMIT SURVEY
 // ============================================================
 function submitSurvey() {
+    if (!currentCompany) {
+        alert('⚠️ الرجاء اختيار الشركة أولاً.');
+        return;
+    }
+
     const personal = getPersonalData();
     const answers = getAllAnswers();
 
@@ -122,6 +198,7 @@ function submitSurvey() {
     const record = {
         id: Date.now(),
         timestamp: new Date().toISOString(),
+        company: personal.company,
         gender: personal.gender,
         qualification: personal.qualification,
         jobTitle: personal.jobTitle,
@@ -145,12 +222,14 @@ function showSurvey() {
     surveyView.classList.remove('hidden');
     loginView.classList.add('hidden');
     adminView.classList.add('hidden');
+    companySelector.classList.add('hidden');
 }
 
 function showLogin() {
     surveyView.classList.add('hidden');
     loginView.classList.remove('hidden');
     adminView.classList.add('hidden');
+    companySelector.classList.add('hidden');
     adminPass.value = '';
 }
 
@@ -158,6 +237,7 @@ function showAdmin() {
     surveyView.classList.add('hidden');
     loginView.classList.add('hidden');
     adminView.classList.remove('hidden');
+    companySelector.classList.add('hidden');
     renderAdmin();
 }
 
@@ -165,26 +245,38 @@ function showAdmin() {
 // RENDER ADMIN DASHBOARD
 // ============================================================
 function renderAdmin() {
-    if (responses.length === 0) {
+    const filteredResponses = getResponsesByCompany(filterCompany);
+    
+    if (filteredResponses.length === 0) {
         statsGrid.innerHTML = `<div class="stat-card"><div class="stat-number">0</div><div class="stat-label">لا توجد استجابات</div></div>`;
-        tableBody.innerHTML = `<tr><td colspan="7" style="padding:30px;">لا توجد بيانات لعرضها</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="8" style="padding:30px;">لا توجد بيانات لعرضها</td></tr>`;
         summaryContent.innerHTML = '<p style="text-align:center;color:#6a8aa0;padding:20px;">لا توجد بيانات كافية للإحصاء</p>';
         chartContainer.innerHTML = '<p style="text-align:center;color:#6a8aa0;padding:30px;">لا توجد بيانات كافية لعرض الرسوم البيانية</p>';
+        comparisonContainer.innerHTML = '<p style="text-align:center;color:#6a8aa0;padding:20px;">لا توجد بيانات كافية للمقارنة</p>';
         return;
     }
 
-    renderStats();
-    renderTable();
-    renderStatistics();
-    renderCharts();
+    // Update summary label
+    if (filterCompany === 'all') {
+        summaryCompanyLabel.innerHTML = '<i class="fas fa-building"></i> جميع الشركات';
+    } else {
+        const company = COMPANIES[filterCompany];
+        summaryCompanyLabel.innerHTML = `<i class="fas ${company.icon}"></i> ${company.name}`;
+    }
+
+    renderStats(filteredResponses);
+    renderTable(filteredResponses);
+    renderStatistics(filteredResponses);
+    renderCharts(filteredResponses);
+    renderComparison();
 }
 
 // ============================================================
 // STATS
 // ============================================================
-function renderStats() {
-    const total = responses.length;
-    const completed = responses.filter(r => {
+function renderStats(data) {
+    const total = data.length;
+    const completed = data.filter(r => {
         for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
             if (r.answers[i] === null || r.answers[i] === undefined) return false;
         }
@@ -193,10 +285,25 @@ function renderStats() {
 
     const genderDist = { ذكر: 0, أنثى: 0 };
     const qualDist = { دبلوم: 0, بكالوريوس: 0, ماجستير: 0, دكتوراه: 0 };
+    const companyDist = {};
 
-    responses.forEach(r => {
+    data.forEach(r => {
         if (r.gender && genderDist.hasOwnProperty(r.gender)) genderDist[r.gender]++;
         if (r.qualification && qualDist.hasOwnProperty(r.qualification)) qualDist[r.qualification]++;
+        if (r.company) {
+            companyDist[r.company] = (companyDist[r.company] || 0) + 1;
+        }
+    });
+
+    let companyStats = '';
+    Object.entries(companyDist).forEach(([id, count]) => {
+        const comp = COMPANIES[id];
+        if (comp) {
+            companyStats += `<span style="display:inline-flex;align-items:center;gap:4px;margin:0 6px;">
+                <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${comp.color};"></span>
+                ${comp.shortName}: ${count}
+            </span>`;
+        }
     });
 
     statsGrid.innerHTML = `
@@ -220,9 +327,9 @@ function renderStats() {
             <div class="stat-number">${qualDist.بكالوريوس}</div>
             <div class="stat-label">بكالوريوس</div>
         </div>
-        <div class="stat-card accent-green">
-            <div class="stat-number">${qualDist.ماجستير}</div>
-            <div class="stat-label">ماجستير</div>
+        <div class="stat-card accent-green" style="grid-column: span 1;">
+            <div class="stat-number" style="font-size:1.2rem;">${companyStats}</div>
+            <div class="stat-label">توزيع الشركات</div>
         </div>
     `;
 }
@@ -230,23 +337,23 @@ function renderStats() {
 // ============================================================
 // TABLE
 // ============================================================
-function renderTable() {
+function renderTable(data) {
     const search = tableSearch.value.toLowerCase();
     const gFilter = filterGender.value;
     const qFilter = filterQual.value;
 
-    let filtered = responses.filter(r => {
+    let filtered = data.filter(r => {
         if (gFilter && r.gender !== gFilter) return false;
         if (qFilter && r.qualification !== qFilter) return false;
         if (search) {
-            const row = `${r.gender} ${r.qualification} ${r.jobTitle} ${r.experience}`.toLowerCase();
+            const row = `${r.company} ${r.gender} ${r.qualification} ${r.jobTitle} ${r.experience}`.toLowerCase();
             if (!row.includes(search)) return false;
         }
         return true;
     });
 
     if (filtered.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="7" style="padding:20px;">لا توجد نتائج مطابقة</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="8" style="padding:20px;">لا توجد نتائج مطابقة</td></tr>`;
         return;
     }
 
@@ -261,9 +368,17 @@ function renderTable() {
         }
         const avg = count > 0 ? (sum / count).toFixed(2) : '-';
 
+        const company = COMPANIES[r.company];
+        const compDisplay = company ? 
+            `<span style="display:inline-flex;align-items:center;gap:4px;">
+                <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${company.color};"></span>
+                ${company.shortName}
+            </span>` : r.company || '-';
+
         html += `
             <tr>
                 <td>${idx + 1}</td>
+                <td>${compDisplay}</td>
                 <td>${r.gender || '-'}</td>
                 <td>${r.qualification || '-'}</td>
                 <td>${r.jobTitle || '-'}</td>
@@ -282,14 +397,14 @@ function renderTable() {
 }
 
 // ============================================================
-// STATISTICS (Professional Table)
+// STATISTICS
 // ============================================================
-function renderStatistics() {
+function renderStatistics(data) {
     // Per-question calculations
     const qMeans = {};
     const qStds = {};
     for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
-        const vals = responses.map(r => r.answers[i]).filter(v => v !== null && v !== undefined);
+        const vals = data.map(r => r.answers[i]).filter(v => v !== null && v !== undefined);
         if (vals.length > 0) {
             const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
             const variance = vals.reduce((a, b) => a + (b - mean) ** 2, 0) / vals.length;
@@ -307,7 +422,7 @@ function renderStatistics() {
         const qids = info.qids;
         const allVals = [];
         qids.forEach(qid => {
-            responses.forEach(r => {
+            data.forEach(r => {
                 const v = r.answers[qid];
                 if (v !== null && v !== undefined) allVals.push(v);
             });
@@ -317,9 +432,8 @@ function renderStatistics() {
         const variance = allVals.length > 0 ? allVals.reduce((a, b) => a + (b - mean) ** 2, 0) / allVals.length : 0;
         const std = Math.sqrt(variance);
 
-        // Cronbach's Alpha
         let alpha = 0;
-        const dimSums = responses.map(r => {
+        const dimSums = data.map(r => {
             let s = 0, c = 0;
             qids.forEach(qid => {
                 const v = r.answers[qid];
@@ -333,7 +447,7 @@ function renderStatistics() {
             const totalMean = dimSums.reduce((a, b) => a + b, 0) / dimSums.length;
             const varTotal = dimSums.reduce((a, b) => a + (b - totalMean) ** 2, 0) / dimSums.length;
             const itemVars = qids.map(qid => {
-                const vals = responses.map(r => r.answers[qid]).filter(v => v !== null && v !== undefined);
+                const vals = data.map(r => r.answers[qid]).filter(v => v !== null && v !== undefined);
                 if (vals.length < 2) return 0;
                 const m = vals.reduce((a, b) => a + b, 0) / vals.length;
                 return vals.reduce((a, b) => a + (b - m) ** 2, 0) / vals.length;
@@ -354,7 +468,7 @@ function renderStatistics() {
     }
 
     // Overall Alpha
-    const allSums = responses.map(r => {
+    const allSums = data.map(r => {
         let s = 0, c = 0;
         for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
             const v = r.answers[i];
@@ -370,7 +484,7 @@ function renderStatistics() {
         const varTotal = allSums.reduce((a, b) => a + (b - totalMean) ** 2, 0) / allSums.length;
         const itemVars = [];
         for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
-            const vals = responses.map(r => r.answers[i]).filter(v => v !== null && v !== undefined);
+            const vals = data.map(r => r.answers[i]).filter(v => v !== null && v !== undefined);
             if (vals.length < 2) { itemVars.push(0); continue; }
             const m = vals.reduce((a, b) => a + b, 0) / vals.length;
             itemVars.push(vals.reduce((a, b) => a + (b - m) ** 2, 0) / vals.length);
@@ -380,10 +494,9 @@ function renderStatistics() {
         if (isNaN(overallAlpha) || !isFinite(overallAlpha)) overallAlpha = 0;
     }
 
-    // Sort dimensions by mean (descending)
+    // Sort dimensions
     const sortedDims = Object.entries(dimData).sort((a, b) => b[1].mean - a[1].mean);
 
-    // Build the summary table
     let html = `
         <table class="summary-table">
             <thead>
@@ -399,26 +512,25 @@ function renderStatistics() {
             <tbody>
     `;
 
-    sortedDims.forEach(([dim, data], index) => {
-        const alphaClass = data.alpha >= 0.7 ? 'alpha-good' : (data.alpha >= 0.5 ? 'alpha-acceptable' : 'alpha-poor');
+    sortedDims.forEach(([dim, dataItem], index) => {
+        const alphaClass = dataItem.alpha >= 0.7 ? 'alpha-good' : (dataItem.alpha >= 0.5 ? 'alpha-acceptable' : 'alpha-poor');
         html += `
             <tr>
                 <td><span class="rank-number">${index + 1}</span></td>
                 <td>
                     <div class="dimension-cell">
-                        <span class="color-dot" style="background:${data.color};"></span>
-                        ${data.label}
+                        <span class="color-dot" style="background:${dataItem.color};"></span>
+                        ${dataItem.label}
                     </div>
                 </td>
-                <td><strong>${data.mean.toFixed(2)}</strong></td>
-                <td>${data.std.toFixed(3)}</td>
-                <td><span class="alpha-value ${alphaClass}">${data.alpha.toFixed(4)}</span></td>
-                <td>${data.qids.length}</td>
+                <td><strong>${dataItem.mean.toFixed(2)}</strong></td>
+                <td>${dataItem.std.toFixed(3)}</td>
+                <td><span class="alpha-value ${alphaClass}">${dataItem.alpha.toFixed(4)}</span></td>
+                <td>${dataItem.qids.length}</td>
             </tr>
         `;
     });
 
-    // Overall Alpha row
     const overallAlphaClass = overallAlpha >= 0.7 ? 'alpha-good' : (overallAlpha >= 0.5 ? 'alpha-acceptable' : 'alpha-poor');
     html += `
             <tr style="background: #eef4fa; font-weight: 700;">
@@ -433,12 +545,11 @@ function renderStatistics() {
             </tr>
     `;
 
-    // Extra info row
     html += `
             <tr style="background: #f8faff;">
                 <td colspan="6" style="text-align: right; padding: 10px 20px; font-size: 0.85rem; color: #4a6680;">
                     <i class="fas fa-info-circle" style="color: #1a5c9e;"></i>
-                    عدد الاستجابات: <strong>${responses.length}</strong> &nbsp;|&nbsp;
+                    عدد الاستجابات: <strong>${data.length}</strong> &nbsp;|&nbsp;
                     عدد الأسئلة الكلي: <strong>${TOTAL_QUESTIONS}</strong> &nbsp;|&nbsp;
                     عدد الأبعاد: <strong>${Object.keys(DIMENSIONS).length}</strong>
                 </td>
@@ -451,17 +562,88 @@ function renderStatistics() {
 }
 
 // ============================================================
+// COMPARISON
+// ============================================================
+function renderComparison() {
+    const companyIds = ['nado', 'mills'];
+    let html = '';
+
+    companyIds.forEach(id => {
+        const company = COMPANIES[id];
+        const data = getResponsesByCompany(id);
+        const count = data.length;
+
+        // Calculate average for each dimension
+        const dimMeans = {};
+        for (const [dim, info] of Object.entries(DIMENSIONS)) {
+            const qids = info.qids;
+            const allVals = [];
+            qids.forEach(qid => {
+                data.forEach(r => {
+                    const v = r.answers[qid];
+                    if (v !== null && v !== undefined) allVals.push(v);
+                });
+            });
+            dimMeans[dim] = allVals.length > 0 ? allVals.reduce((a, b) => a + b, 0) / allVals.length : 0;
+        }
+
+        const overallMean = Object.values(dimMeans).reduce((a, b) => a + b, 0) / Object.keys(dimMeans).length;
+
+        // Get top dimension
+        const sorted = Object.entries(dimMeans).sort((a, b) => b[1] - a[1]);
+        const topDim = sorted.length > 0 ? DIMENSIONS[sorted[0][0]]?.label || '-' : '-';
+
+        html += `
+            <div class="comparison-card" style="border-top: 4px solid ${company.color};">
+                <div class="comp-header">
+                    <div class="comp-icon" style="background:${company.gradient};">
+                        <i class="fas ${company.icon}"></i>
+                    </div>
+                    <div>
+                        <div class="comp-name">${company.shortName}</div>
+                        <div style="font-size:0.75rem;color:#4a6680;">${count} استجابة</div>
+                    </div>
+                </div>
+                <div class="comp-stats">
+                    <div class="comp-stat">
+                        <strong>${overallMean.toFixed(2)}</strong>
+                        المتوسط الكلي
+                    </div>
+                    <div class="comp-stat">
+                        <strong>${topDim}</strong>
+                        أعلى بعد
+                    </div>
+                    <div class="comp-stat">
+                        <strong>${Object.keys(dimMeans).length}</strong>
+                        عدد الأبعاد
+                    </div>
+                    <div class="comp-stat">
+                        <strong>${count > 0 ? '✓' : '✗'}</strong>
+                        حالة البيانات
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    if (companyIds.every(id => getResponsesByCompany(id).length === 0)) {
+        html = '<p style="text-align:center;color:#6a8aa0;padding:30px;">لا توجد بيانات كافية للمقارنة بين الشركات</p>';
+    }
+
+    comparisonContainer.innerHTML = html;
+}
+
+// ============================================================
 // CHARTS
 // ============================================================
-function renderCharts() {
-    // Destroy old charts
+function renderCharts(data) {
     currentCharts.forEach(c => c.destroy());
     currentCharts = [];
     chartContainer.innerHTML = '';
 
     // 1. Gender Distribution
     const genderCount = { ذكر: 0, أنثى: 0 };
-    responses.forEach(r => { if (r.gender && genderCount.hasOwnProperty(r.gender)) genderCount[r.gender]++; });
+    data.forEach(r => { if (r.gender && genderCount.hasOwnProperty(r.gender)) genderCount[r.gender]++; });
 
     const div1 = document.createElement('div');
     div1.className = 'chart-box';
@@ -479,35 +661,40 @@ function renderCharts() {
     });
     currentCharts.push(chart1);
 
-    // 2. Qualification
-    const qualCount = { دبلوم: 0, بكالوريوس: 0, ماجستير: 0, دكتوراه: 0 };
-    responses.forEach(r => { if (r.qualification && qualCount.hasOwnProperty(r.qualification)) qualCount[r.qualification]++; });
+    // 2. Company Distribution (if showing all)
+    if (filterCompany === 'all') {
+        const compCount = {};
+        data.forEach(r => {
+            if (r.company) compCount[r.company] = (compCount[r.company] || 0) + 1;
+        });
 
-    const div2 = document.createElement('div');
-    div2.className = 'chart-box';
-    div2.innerHTML = `<h4><i class="fas fa-graduation-cap"></i> المؤهل العلمي</h4><canvas id="chartQual"></canvas>`;
-    chartContainer.appendChild(div2);
+        const labels = Object.keys(compCount).map(id => COMPANIES[id]?.shortName || id);
+        const values = Object.values(compCount);
+        const colors = Object.keys(compCount).map(id => COMPANIES[id]?.color || '#6a8aa0');
 
-    const ctx2 = document.getElementById('chartQual').getContext('2d');
-    const chart2 = new Chart(ctx2, {
-        type: 'bar',
-        data: {
-            labels: ['دبلوم', 'بكالوريوس', 'ماجستير', 'دكتوراه'],
-            datasets: [{ 
-                data: [qualCount.دبلوم, qualCount.بكالوريوس, qualCount.ماجستير, qualCount.دكتوراه], 
-                backgroundColor: ['#4a8bc2', '#1a5c9e', '#154a7e', '#0f3a63']
-            }]
-        },
-        options: { plugins: { legend: { display: false } } }
-    });
-    currentCharts.push(chart2);
+        const div2 = document.createElement('div');
+        div2.className = 'chart-box';
+        div2.innerHTML = `<h4><i class="fas fa-building"></i> توزيع الشركات</h4><canvas id="chartCompany"></canvas>`;
+        chartContainer.appendChild(div2);
 
-    // 3. Dimension Means (Radar)
+        const ctx2 = document.getElementById('chartCompany').getContext('2d');
+        const chart2 = new Chart(ctx2, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{ data: values, backgroundColor: colors }]
+            },
+            options: { plugins: { legend: { position: 'bottom', labels: { font: { family: 'Tajawal' } } } } }
+        });
+        currentCharts.push(chart2);
+    }
+
+    // 3. Dimension Means
     const dimLabels = Object.keys(DIMENSIONS).map(k => DIMENSIONS[k].label);
     const dimMeans = Object.keys(DIMENSIONS).map(k => {
         const qids = DIMENSIONS[k].qids;
         let sum = 0, count = 0;
-        responses.forEach(r => {
+        data.forEach(r => {
             qids.forEach(qid => {
                 const v = r.answers[qid];
                 if (v !== null && v !== undefined) { sum += v; count++; }
@@ -540,46 +727,41 @@ function renderCharts() {
         }
     });
     currentCharts.push(chart3);
+}
 
-    // 4. Experience Distribution
-    const expCount = { 'أقل من 5 سنوات': 0, '5-10 سنوات': 0, '11-15 سنة': 0, 'أكثر من 15 سنة': 0 };
-    responses.forEach(r => { if (r.experience && expCount.hasOwnProperty(r.experience)) expCount[r.experience]++; });
-
-    const div4 = document.createElement('div');
-    div4.className = 'chart-box';
-    div4.innerHTML = `<h4><i class="fas fa-clock"></i> سنوات الخبرة</h4><canvas id="chartExp"></canvas>`;
-    chartContainer.appendChild(div4);
-
-    const ctx4 = document.getElementById('chartExp').getContext('2d');
-    const chart4 = new Chart(ctx4, {
-        type: 'pie',
-        data: {
-            labels: ['أقل من 5', '5-10', '11-15', 'أكثر من 15'],
-            datasets: [{ 
-                data: [expCount['أقل من 5 سنوات'], expCount['5-10 سنوات'], expCount['11-15 سنة'], expCount['أكثر من 15 سنة']],
-                backgroundColor: ['#1a5c9e', '#4a8bc2', '#8ab0d0', '#b8cfe0']
-            }]
-        },
-        options: { plugins: { legend: { position: 'bottom', labels: { font: { family: 'Tajawal' } } } } }
+// ============================================================
+// FILTER COMPANY
+// ============================================================
+function filterCompany(companyId) {
+    filterCompany = companyId;
+    
+    // Update buttons
+    document.querySelectorAll('.filter-company-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.company === companyId) {
+            btn.classList.add('active');
+        }
     });
-    currentCharts.push(chart4);
+    
+    renderAdmin();
 }
 
 // ============================================================
 // EXPORT
 // ============================================================
 function exportData(format) {
-    if (responses.length === 0) {
+    const data = getResponsesByCompany(filterCompany);
+    if (data.length === 0) {
         alert('لا توجد بيانات للتصدير.');
         return;
     }
 
     let rows = [];
-    const header = ['id', 'gender', 'qualification', 'jobTitle', 'experience', ...Array.from({ length: TOTAL_QUESTIONS }, (_, i) => 'q' + (i + 1))];
+    const header = ['id', 'company', 'gender', 'qualification', 'jobTitle', 'experience', ...Array.from({ length: TOTAL_QUESTIONS }, (_, i) => 'q' + (i + 1))];
     rows.push(header);
 
-    responses.forEach(r => {
-        const row = [r.id, r.gender, r.qualification, r.jobTitle, r.experience];
+    data.forEach(r => {
+        const row = [r.id, r.company, r.gender, r.qualification, r.jobTitle, r.experience];
         for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
             row.push(r.answers[i] !== undefined && r.answers[i] !== null ? r.answers[i] : '');
         }
@@ -609,7 +791,8 @@ function downloadBlob(blob, filename) {
 }
 
 function generatePDF() {
-    if (responses.length === 0) {
+    const data = getResponsesByCompany(filterCompany);
+    if (data.length === 0) {
         alert('لا توجد بيانات لتقرير PDF.');
         return;
     }
@@ -620,9 +803,6 @@ function generatePDF() {
 // EVENT LISTENERS
 // ============================================================
 submitBtn.addEventListener('click', submitSurvey);
-goToAdminBtn.addEventListener('click', showLogin);
-backToSurveyFromLogin.addEventListener('click', showSurvey);
-backToSurveyFromAdmin.addEventListener('click', showSurvey);
 
 loginBtn.addEventListener('click', function() {
     const user = adminUser.value.trim();
@@ -640,17 +820,44 @@ adminPass.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') loginBtn.click();
 });
 
-logoutAdmin.addEventListener('click', showSurvey);
+logoutAdmin.addEventListener('click', function() {
+    showCompanySelector();
+});
 
-applyFilters.addEventListener('click', renderTable);
+// Back buttons
+document.getElementById('backToSurveyFromLogin').addEventListener('click', function() {
+    if (currentCompany) {
+        showSurvey();
+    } else {
+        showCompanySelector();
+    }
+});
+
+document.getElementById('backToSurveyFromAdmin').addEventListener('click', function() {
+    if (currentCompany) {
+        showSurvey();
+    } else {
+        showCompanySelector();
+    }
+});
+
+applyFilters.addEventListener('click', function() {
+    const data = getResponsesByCompany(filterCompany);
+    renderTable(data);
+});
+
 resetFilters.addEventListener('click', function() {
     tableSearch.value = '';
     filterGender.value = '';
     filterQual.value = '';
-    renderTable();
+    const data = getResponsesByCompany(filterCompany);
+    renderTable(data);
 });
 
-tableSearch.addEventListener('input', renderTable);
+tableSearch.addEventListener('input', function() {
+    const data = getResponsesByCompany(filterCompany);
+    renderTable(data);
+});
 
 exportExcel.addEventListener('click', function() { exportData('excel'); });
 exportCSV.addEventListener('click', function() { exportData('csv'); });
@@ -660,10 +867,15 @@ exportPDF.addEventListener('click', generatePDF);
 // INIT
 // ============================================================
 loadResponses();
-showSurvey();
+showCompanySelector();
 
-window.renderTable = renderTable;
+// Make functions globally accessible
+window.selectCompany = selectCompany;
+window.showCompanySelector = showCompanySelector;
+window.showAdminLogin = showAdminLogin;
+window.filterCompany = filterCompany;
 
 console.log('✅ الاستبيان جاهز للاستخدام');
 console.log(`📊 عدد الاستجابات المحفوظة: ${responses.length}`);
-console.log('🔑 كلمة مرور المشرف: kaleem7364 (مخفية)');
+console.log('🏢 الشركات المدعومة: ناد فود, المطاحن');
+console.log('🔑 كلمة مرور المشرف مخفية');
