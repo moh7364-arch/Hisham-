@@ -746,119 +746,121 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- =================== ADMIN DASHBOARD ======================== -->
-    <!-- ============================================================ -->
-    <div id="adminView" class="container hidden">
-        <div class="admin-header">
-            <div class="admin-title">
-                <i class="fas fa-chart-pie"></i>
-                <h2>لوحة تحكم المشرف</h2>
-            </div>
-            <div class="admin-actions">
-                <button class="btn btn-outline" id="backToSurveyFromAdmin">
-                    <i class="fas fa-arrow-right"></i>
-                    الاستبيان
-                </button>
-                <button class="btn btn-danger" id="logoutAdmin">
-                    <i class="fas fa-sign-out-alt"></i>
-                    خروج
-                </button>
-            </div>
+<!-- =================== ADMIN DASHBOARD ======================== -->
+<!-- ============================================================ -->
+<div id="adminView" class="container hidden">
+    <div class="admin-header">
+        <div class="admin-title">
+            <i class="fas fa-chart-pie"></i>
+            <h2>لوحة تحكم المشرف</h2>
         </div>
-
-        <!-- Stats -->
-        <div class="stats-grid" id="statsGrid"></div>
-
-        <!-- Filters -->
-        <div class="filters-bar">
-            <div class="filter-group">
-                <i class="fas fa-search"></i>
-                <input type="text" id="tableSearch" placeholder="بحث في الجدول...">
-            </div>
-            <div class="filter-group">
-                <select id="filterGender">
-                    <option value="">جميع الجنسين</option>
-                    <option value="ذكر">ذكر</option>
-                    <option value="أنثى">أنثى</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <select id="filterQual">
-                    <option value="">جميع المؤهلات</option>
-                    <option value="دبلوم">دبلوم</option>
-                    <option value="بكالوريوس">بكالوريوس</option>
-                    <option value="ماجستير">ماجستير</option>
-                    <option value="دكتوراه">دكتوراه</option>
-                </select>
-            </div>
-            <button class="btn btn-primary" id="applyFilters">
-                <i class="fas fa-filter"></i>
-                تطبيق
+        <div class="admin-actions">
+            <button class="btn btn-outline" id="backToSurveyFromAdmin">
+                <i class="fas fa-arrow-right"></i>
+                الاستبيان
             </button>
-            <button class="btn btn-outline" id="resetFilters">
-                <i class="fas fa-undo"></i>
-                إعادة تعيين
+            <button class="btn btn-danger" id="logoutAdmin">
+                <i class="fas fa-sign-out-alt"></i>
+                خروج
             </button>
-        </div>
-
-        <!-- Table -->
-        <div class="table-wrapper">
-            <table id="responsesTable">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>الجنس</th>
-                        <th>المؤهل</th>
-                        <th>المسمى</th>
-                        <th>الخبرة</th>
-                        <th>المتوسط</th>
-                        <th>التفاصيل</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody"></tbody>
-            </table>
-        </div>
-
-        <!-- Statistical Summary -->
-        <div class="stat-summary" id="statSummary">
-            <div class="summary-header">
-                <i class="fas fa-calculator"></i>
-                <h3>الملخص الإحصائي</h3>
-            </div>
-            <div id="summaryContent"></div>
-        </div>
-
-        <!-- Charts -->
-        <div class="charts-section">
-            <div class="charts-header">
-                <i class="fas fa-chart-line"></i>
-                <h3>الرسوم البيانية التفاعلية</h3>
-            </div>
-            <div class="charts-grid" id="chartContainer"></div>
-        </div>
-
-        <!-- Export -->
-        <div class="export-section">
-            <div class="export-header">
-                <i class="fas fa-download"></i>
-                <h3>تصدير البيانات والتقارير</h3>
-            </div>
-            <div class="export-buttons">
-                <button class="btn btn-success" id="exportExcel">
-                    <i class="fas fa-file-excel"></i>
-                    تصدير Excel
-                </button>
-                <button class="btn btn-primary" id="exportCSV">
-                    <i class="fas fa-file-csv"></i>
-                    تصدير CSV
-                </button>
-                <button class="btn btn-danger" id="exportPDF">
-                    <i class="fas fa-file-pdf"></i>
-                    تقرير PDF
-                </button>
-            </div>
         </div>
     </div>
+
+    <!-- Stats -->
+    <div class="stats-grid" id="statsGrid"></div>
+
+    <!-- Filters -->
+    <div class="filters-bar">
+        <div class="filter-group">
+            <i class="fas fa-search"></i>
+            <input type="text" id="tableSearch" placeholder="بحث في الجدول...">
+        </div>
+        <div class="filter-group">
+            <select id="filterGender">
+                <option value="">جميع الجنسين</option>
+                <option value="ذكر">ذكر</option>
+                <option value="أنثى">أنثى</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <select id="filterQual">
+                <option value="">جميع المؤهلات</option>
+                <option value="دبلوم">دبلوم</option>
+                <option value="بكالوريوس">بكالوريوس</option>
+                <option value="ماجستير">ماجستير</option>
+                <option value="دكتوراه">دكتوراه</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" id="applyFilters">
+            <i class="fas fa-filter"></i>
+            تطبيق
+        </button>
+        <button class="btn btn-outline" id="resetFilters">
+            <i class="fas fa-undo"></i>
+            إعادة تعيين
+        </button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrapper">
+        <table id="responsesTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>الجنس</th>
+                    <th>المؤهل</th>
+                    <th>المسمى</th>
+                    <th>الخبرة</th>
+                    <th>المتوسط</th>
+                    <th>التفاصيل</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <!-- ====== STATISTICAL SUMMARY IN PROFESSIONAL TABLE ====== -->
+    <div class="stat-summary">
+        <div class="summary-header">
+            <i class="fas fa-calculator"></i>
+            <h3>الملخص الإحصائي</h3>
+        </div>
+        <div id="summaryContent">
+            <!-- سيتم ملء هذا الجدول بواسطة JavaScript -->
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts-section">
+        <div class="charts-header">
+            <i class="fas fa-chart-line"></i>
+            <h3>الرسوم البيانية التفاعلية</h3>
+        </div>
+        <div class="charts-grid" id="chartContainer"></div>
+    </div>
+
+    <!-- Export -->
+    <div class="export-section">
+        <div class="export-header">
+            <i class="fas fa-download"></i>
+            <h3>تصدير البيانات والتقارير</h3>
+        </div>
+        <div class="export-buttons">
+            <button class="btn btn-success" id="exportExcel">
+                <i class="fas fa-file-excel"></i>
+                تصدير Excel
+            </button>
+            <button class="btn btn-primary" id="exportCSV">
+                <i class="fas fa-file-csv"></i>
+                تصدير CSV
+            </button>
+            <button class="btn btn-danger" id="exportPDF">
+                <i class="fas fa-file-pdf"></i>
+                تقرير PDF
+            </button>
+        </div>
+    </div>
+</div>
 
     <script src="script.js"></script>
 </body>
