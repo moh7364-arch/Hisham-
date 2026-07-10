@@ -598,3 +598,190 @@ window.renderTable = renderTable;
 console.log('✅ الاستبيان جاهز للاستخدام');
 console.log(`📊 عدد الاستجابات المحفوظة: ${responses.length}`);
 console.log('🔑 كلمة مرور المشرف: kaleem7364');
+// ============================================================
+// RENDER STATISTICS (Professional Table)
+// ============================================================
+function renderStatistics() {
+    // Per-question means
+    const qMeans = {};
+    const qStds = {};
+    for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+        const vals = responses.map(r => r.answers[i]).filter(v => v !== null && v !== undefined);
+        if (vals.length > 0) {
+            const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
+            const variance = vals.reduce((a, b) => a + (b - mean) ** 2, 0) / vals.length;
+            qMeans[i] = mean;
+            qStds[i] = Math.sqrt(variance);
+        } else {
+            qMeans[i] = 0;
+            qStds[i] = 0;
+        }
+    }
+
+    // Dimension calculations
+    const dimData = {};
+    for (const [dim, info] of Object.entries(DIMENSIONS)) {
+        const qids = info.qids;
+        const allVals = [];
+        qids.forEach(qid => {
+            responses.forEach(r => {
+                const v = r.answers[qid];
+                if (v !== null && v !== undefined) allVals.push(v);
+            });
+        });
+
+        const mean = allVals.length > 0 ? allVals.reduce((a, b) => a + b, 0) / allVals.length : 0;
+        const variance = allVals.length > 0 ? allVals.reduce((a, b) => a + (b - mean) ** 2, 0) / allVals.length : 0;
+        const std = Math.sqrt(variance);
+
+        // Cronbach's Alpha
+        let alpha = 0;
+        const dimSums = responses.map(r => {
+            let s = 0, c = 0;
+            qids.forEach(qid => {
+                const v = r.answers[qid];
+                if (v !== null && v !== undefined) { s += v; c++; }
+            });
+            return c > 0 ? s : null;
+        }).filter(v => v !== null);
+
+        if (dimSums.length > 1) {
+            const k = qids.length;
+            const totalMean = dimSums.reduce((a, b) => a + b, 0) / dimSums.length;
+            const varTotal = dimSums.reduce((a, b) => a + (b - totalMean) ** 2, 0) / dimSums.length;
+            const itemVars = qids.map(qid => {
+                const vals = responses.map(r => r.answers[qid]).filter(v => v !== null && v !== undefined);
+                if (vals.length < 2) return 0;
+                const m = vals.reduce((a, b) => a + b, 0) / vals.length;
+                return vals.reduce((a, b) => a + (b - m) ** 2, 0) / vals.length;
+            });
+            const avgItemVar = itemVars.reduce((a, b) => a + b, 0) / itemVars.length;
+            alpha = (k / (k - 1)) * (1 - (avgItemVar / varTotal));
+            if (isNaN(alpha) || !isFinite(alpha)) alpha = 0;
+        }
+
+        dimData[dim] = {
+            label: info.label,
+            qids: qids,
+            mean: mean,
+            std: std,
+            alpha: alpha,
+            color: getDimensionColor(dim)
+        };
+    }
+
+    // Overall Alpha
+    const allSums = responses.map(r => {
+        let s = 0, c = 0;
+        for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+            const v = r.answers[i];
+            if (v !== null && v !== undefined) { s += v; c++; }
+        }
+        return c > 0 ? s : null;
+    }).filter(v => v !== null);
+
+    let overallAlpha = 0;
+    if (allSums.length > 1) {
+        const k = TOTAL_QUESTIONS;
+        const totalMean = allSums.reduce((a, b) => a + b, 0) / allSums.length;
+        const varTotal = allSums.reduce((a, b) => a + (b - totalMean) ** 2, 0) / allSums.length;
+        const itemVars = [];
+        for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+            const vals = responses.map(r => r.answers[i]).filter(v => v !== null && v !== undefined);
+            if (vals.length < 2) { itemVars.push(0); continue; }
+            const m = vals.reduce((a, b) => a + b, 0) / vals.length;
+            itemVars.push(vals.reduce((a, b) => a + (b - m) ** 2, 0) / vals.length);
+        }
+        const avgItemVar = itemVars.reduce((a, b) => a + b, 0) / itemVars.length;
+        overallAlpha = (k / (k - 1)) * (1 - (avgItemVar / varTotal));
+        if (isNaN(overallAlpha) || !isFinite(overallAlpha)) overallAlpha = 0;
+    }
+
+    // Sort dimensions by mean (descending)
+    const sortedDims = Object.entries(dimData).sort((a, b) => b[1].mean - a[1].mean);
+
+    // Build the summary table
+    let html = `
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>البعد</th>
+                    <th>المتوسط</th>
+                    <th>الانحراف المعياري</th>
+                    <th>ألفا كرونباخ</th>
+                    <th>عدد الأسئلة</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    sortedDims.forEach(([dim, data], index) => {
+        const alphaClass = data.alpha >= 0.7 ? 'alpha-good' : (data.alpha >= 0.5 ? 'alpha-acceptable' : 'alpha-poor');
+        html += `
+            <tr>
+                <td><span class="rank-number">${index + 1}</span></td>
+                <td>
+                    <div class="dimension-cell">
+                        <span class="color-dot" style="background:${data.color};"></span>
+                        ${data.label}
+                    </div>
+                </td>
+                <td><strong>${data.mean.toFixed(2)}</strong></td>
+                <td>${data.std.toFixed(3)}</td>
+                <td><span class="alpha-value ${alphaClass}">${data.alpha.toFixed(4)}</span></td>
+                <td>${data.qids.length}</td>
+            </tr>
+        `;
+    });
+
+    // Overall Alpha row
+    const overallAlphaClass = overallAlpha >= 0.7 ? 'alpha-good' : (overallAlpha >= 0.5 ? 'alpha-acceptable' : 'alpha-poor');
+    html += `
+            <tr style="background: #eef4fa; font-weight: 700;">
+                <td colspan="2" style="text-align: left; padding-right: 20px;">
+                    <i class="fas fa-crown" style="color: #f3a712;"></i>
+                    الإجمالي (جميع الأبعاد)
+                </td>
+                <td>${(Object.values(dimData).reduce((a, d) => a + d.mean, 0) / Object.keys(dimData).length).toFixed(2)}</td>
+                <td>${(Object.values(dimData).reduce((a, d) => a + d.std, 0) / Object.keys(dimData).length).toFixed(3)}</td>
+                <td><span class="alpha-value ${overallAlphaClass}">${overallAlpha.toFixed(4)}</span></td>
+                <td>${TOTAL_QUESTIONS}</td>
+            </tr>
+    `;
+
+    // Extra info row
+    html += `
+            <tr style="background: #f8faff;">
+                <td colspan="6" style="text-align: right; padding: 10px 20px; font-size: 0.85rem; color: #4a6680;">
+                    <i class="fas fa-info-circle" style="color: #1a5c9e;"></i>
+                    عدد الاستجابات: <strong>${responses.length}</strong> &nbsp;|&nbsp;
+                    عدد الأسئلة الكلي: <strong>${TOTAL_QUESTIONS}</strong> &nbsp;|&nbsp;
+                    عدد الأبعاد: <strong>${Object.keys(DIMENSIONS).length}</strong>
+                </td>
+            </tr>
+    `;
+
+    html += `</tbody></table>`;
+
+    summaryContent.innerHTML = html;
+}
+
+// ============================================================
+// DIMENSION COLORS
+// ============================================================
+function getDimensionColor(dim) {
+    const colors = {
+        expert: '#2E86AB',
+        ml: '#D4A373',
+        nn: '#6A4C93',
+        genetic: '#E07A5F',
+        relevance: '#3D8C7A',
+        faithful: '#A23B72',
+        comparability: '#F3A712',
+        verifiability: '#4A7C59',
+        timeliness: '#C44545',
+        understandability: '#3A86FF'
+    };
+    return colors[dim] || '#6a8aa0';
+            }
