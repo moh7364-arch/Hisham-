@@ -1313,3 +1313,402 @@ tr:hover td {
         color: #fff !important;
     }
 }
+/* ============================================================
+   Company Selector Styles
+   ============================================================ */
+.company-selector-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.selector-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.selector-header .logo-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--primary-gradient);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 36px;
+    margin: 0 auto 16px;
+}
+
+.selector-header h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #0b1a2e;
+}
+
+.selector-header h2 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #1a5c9e;
+    margin-bottom: 8px;
+}
+
+.selector-subtitle {
+    color: #4a6680;
+    font-size: 1rem;
+}
+
+.company-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.company-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 35px 30px;
+    text-align: center;
+    border: 3px solid #e8eff6;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.company-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(26,92,158,0.03), rgba(26,92,158,0.08));
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.company-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(0,20,40,0.12);
+    border-color: #1a5c9e;
+}
+
+.company-card:hover::before {
+    opacity: 1;
+}
+
+.company-card .company-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 32px;
+    margin: 0 auto 16px;
+    transition: all 0.3s ease;
+}
+
+.company-card:hover .company-logo {
+    transform: scale(1.05);
+}
+
+.company-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0b1a2e;
+    margin-bottom: 4px;
+}
+
+.company-card .company-sub {
+    color: #4a6680;
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+}
+
+.company-card .company-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #e8eff6;
+    color: #1a3a5c;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.company-card:hover .company-badge {
+    background: #1a5c9e;
+    color: #fff;
+}
+
+.company-card.selected {
+    border-color: #1a5c9e;
+    box-shadow: 0 10px 40px rgba(26,92,158,0.15);
+}
+
+.company-card.selected .company-badge {
+    background: #1a5c9e;
+    color: #fff;
+}
+
+.selector-footer {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 2px solid #e8eff6;
+}
+
+/* ============================================================
+   Company Banner in Survey
+   ============================================================ */
+.company-banner {
+    background: linear-gradient(135deg, #1a3a5c, #1a5c9e);
+    border-radius: 16px;
+    padding: 14px 24px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.company-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.company-banner-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+}
+
+.company-banner-label {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.8rem;
+}
+
+.company-banner-name {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin: 0 8px;
+}
+
+.company-banner-sub {
+    color: #8ab0d0;
+    font-size: 0.85rem;
+}
+
+.company-banner .btn {
+    color: #fff;
+    border-color: rgba(255,255,255,0.3);
+}
+
+.company-banner .btn:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: #fff;
+}
+
+/* ============================================================
+   Company Filter Bar
+   ============================================================ */
+.company-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 18px;
+    background: #f7faff;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    border: 1px solid #dce6f0;
+}
+
+.company-filter-bar label {
+    font-weight: 600;
+    color: #1a3a5c;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.company-filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.filter-company-btn {
+    min-width: auto;
+    padding: 8px 18px;
+    font-size: 0.85rem;
+}
+
+.filter-company-btn.active {
+    background: #1a5c9e;
+    color: #fff;
+    border-color: #1a5c9e;
+}
+
+/* ============================================================
+   Comparison Section
+   ============================================================ */
+.comparison-section {
+    margin: 25px 0;
+}
+
+.comparison-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.comparison-header i {
+    font-size: 24px;
+    color: #1a5c9e;
+}
+
+.comparison-header h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.comparison-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #dce6f0;
+    transition: all 0.3s ease;
+}
+
+.comparison-card:hover {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+}
+
+.comparison-card .comp-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e8eff6;
+}
+
+.comparison-card .comp-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 18px;
+}
+
+.comparison-card .comp-name {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #0b1a2e;
+}
+
+.comparison-card .comp-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+}
+
+.comparison-card .comp-stat {
+    font-size: 0.85rem;
+    color: #2a4058;
+}
+
+.comparison-card .comp-stat strong {
+    color: #0b1a2e;
+    font-weight: 700;
+    display: block;
+    font-size: 1.1rem;
+}
+
+/* ============================================================
+   Responsive Updates
+   ============================================================ */
+@media (max-width: 768px) {
+    .company-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .company-card {
+        padding: 24px 20px;
+    }
+
+    .company-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .company-banner-content {
+        width: 100%;
+    }
+
+    .company-filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .company-filter-buttons {
+        justify-content: center;
+    }
+
+    .comparison-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .comparison-card .comp-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .selector-header h1 {
+        font-size: 1.4rem;
+    }
+
+    .selector-header h2 {
+        font-size: 1rem;
+    }
+
+    .company-card h3 {
+        font-size: 1rem;
+    }
+
+    .company-banner-name {
+        font-size: 0.9rem;
+    }
+
+    .company-banner-sub {
+        font-size: 0.75rem;
+    }
+   }
