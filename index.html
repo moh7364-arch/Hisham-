@@ -5,825 +5,889 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الاستبيان - تأثير الذكاء الاصطناعي</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<!-- ========================================================== -->
-<!-- ================== COMPANY SELECTOR ====================== -->
-<!-- ========================================================== -->
-<div id="companySelector" class="container selector-container">
-    <div class="selector-wrapper">
-        <div class="selector-brand">
-            <div class="brand-icon">
-                <i class="fas fa-robot"></i>
-            </div>
-            <h1>تأثير تقنيات الذكاء الاصطناعي</h1>
-            <h2>على جودة المعلومات المحاسبية</h2>
-            <p class="brand-sub">الشركات الصناعية اليمنية</p>
-        </div>
-
-        <div class="selector-divider">
-            <span>اختر شركتك</span>
-        </div>
-
-        <div class="company-grid">
-            <!-- Nado Food -->
-            <div class="company-card" onclick="selectCompany('nado')">
-                <div class="company-card-icon" style="background: linear-gradient(135deg, #1a5c9e, #2a7bc4);">
-                    <i class="fas fa-industry"></i>
+    <!-- ============================================================ -->
+    <!-- ====================== SURVEY VIEW ========================== -->
+    <!-- ============================================================ -->
+    <div id="surveyView" class="container">
+        <!-- ====== HEADER ====== -->
+        <div class="survey-header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i class="fas fa-robot"></i>
                 </div>
-                <div class="company-card-info">
-                    <h3>شركة الألبان والأغذية الوطنية</h3>
-                    <p class="company-short">ناد فود</p>
-                    <div class="company-card-badge">
-                        <i class="fas fa-arrow-left"></i>
-                        اضغط للاختيار
+                <div>
+                    <h1>تأثير تقنيات الذكاء الاصطناعي</h1>
+                    <h2>على جودة المعلومات المحاسبية</h2>
+                </div>
+            </div>
+            <div class="header-info">
+                <span><i class="fas fa-building"></i> الشركات الصناعية اليمنية</span>
+                <span><i class="fas fa-calendar-alt"></i> 2024</span>
+            </div>
+        </div>
+
+        <!-- ====== WELCOME CARD ====== -->
+        <div class="welcome-card">
+            <div class="welcome-icon">
+                <i class="fas fa-hand-peace"></i>
+            </div>
+            <div class="welcome-content">
+                <h3>السادة / أفراد عينة الدراسة المحترمين</h3>
+                <p class="greeting">السلام عليكم ورحمة الله وبركاته</p>
+                <p class="purpose">
+                    تهدف هذه الاستبانة إلى جمع البيانات اللازمة للتعرف إلى مستوى استخدام تقنيات الذكاء الاصطناعي 
+                    وقياس أثرها على جودة المعلومات المحاسبية في الشركات الصناعية اليمنية.
+                </p>
+                <div class="privacy-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>جميع البيانات ستُستخدم لأغراض البحث العلمي فقط وستُعامل بسرية تامة</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== INSTRUCTIONS ====== -->
+        <div class="instructions-card">
+            <div class="instructions-header">
+                <i class="fas fa-list-check"></i>
+                <h4>تعليمات الإجابة</h4>
+            </div>
+            <p>يرجى قراءة كل عبارة بعناية، ثم اختيار درجة الموافقة المناسبة وفق المقياس التالي:</p>
+            <div class="scale-indicator">
+                <span class="scale-item scale-5"><span class="scale-dot"></span> أوافق بشدة</span>
+                <span class="scale-item scale-4"><span class="scale-dot"></span> أوافق</span>
+                <span class="scale-item scale-3"><span class="scale-dot"></span> محايد</span>
+                <span class="scale-item scale-2"><span class="scale-dot"></span> لا أوافق</span>
+                <span class="scale-item scale-1"><span class="scale-dot"></span> لا أوافق بشدة</span>
+            </div>
+        </div>
+
+        <!-- ====== PERSONAL DATA ====== -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2 class="section-title">البيانات الشخصية</h2>
+            </div>
+
+            <div class="personal-data-grid">
+                <!-- Gender -->
+                <div class="personal-card">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #2E86AB, #1a6a8a);">
+                        <i class="fas fa-venus-mars"></i>
+                    </div>
+                    <div class="card-content">
+                        <label>الجنس</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="gender" value="ذكر">
+                                <span class="radio-custom"></span>
+                                ذكر
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="gender" value="أنثى">
+                                <span class="radio-custom"></span>
+                                أنثى
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Qualification -->
+                <div class="personal-card">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #6A4C93, #4a2f6a);">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="card-content">
+                        <label>المؤهل العلمي</label>
+                        <div class="radio-group">
+                            <label class="radio-option"><input type="radio" name="qualification" value="دبلوم"><span class="radio-custom"></span>دبلوم</label>
+                            <label class="radio-option"><input type="radio" name="qualification" value="بكالوريوس"><span class="radio-custom"></span>بكالوريوس</label>
+                            <label class="radio-option"><input type="radio" name="qualification" value="ماجستير"><span class="radio-custom"></span>ماجستير</label>
+                            <label class="radio-option"><input type="radio" name="qualification" value="دكتوراه"><span class="radio-custom"></span>دكتوراه</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Title -->
+                <div class="personal-card">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #E07A5F, #b85a3f);">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="card-content">
+                        <label>المسمى الوظيفي</label>
+                        <div class="radio-group">
+                            <label class="radio-option"><input type="radio" name="jobTitle" value="محاسب"><span class="radio-custom"></span>محاسب</label>
+                            <label class="radio-option"><input type="radio" name="jobTitle" value="مدقق حسابات"><span class="radio-custom"></span>مدقق حسابات</label>
+                            <label class="radio-option"><input type="radio" name="jobTitle" value="مدير مالي"><span class="radio-custom"></span>مدير مالي</label>
+                            <label class="radio-option"><input type="radio" name="jobTitle" value="موظف تقنية معلومات"><span class="radio-custom"></span>موظف تقنية معلومات</label>
+                            <label class="radio-option"><input type="radio" name="jobTitle" value="أخرى"><span class="radio-custom"></span>أخرى</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Experience -->
+                <div class="personal-card">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #3D8C7A, #2a6a5a);">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="card-content">
+                        <label>سنوات الخبرة</label>
+                        <div class="radio-group">
+                            <label class="radio-option"><input type="radio" name="experience" value="أقل من 5 سنوات"><span class="radio-custom"></span>أقل من 5 سنوات</label>
+                            <label class="radio-option"><input type="radio" name="experience" value="5-10 سنوات"><span class="radio-custom"></span>5-10 سنوات</label>
+                            <label class="radio-option"><input type="radio" name="experience" value="11-15 سنة"><span class="radio-custom"></span>11-15 سنة</label>
+                            <label class="radio-option"><input type="radio" name="experience" value="أكثر من 15 سنة"><span class="radio-custom"></span>أكثر من 15 سنة</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== QUESTIONS - المحور الأول ====== -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2 class="section-title">محور تقنيات الذكاء الاصطناعي</h2>
+            </div>
+
+            <!-- البعد الأول: الأنظمة الخبيرة -->
+            <div class="dimension-block">
+                <div class="dimension-header expert">
+                    <i class="fas fa-brain"></i>
+                    <h3>البعد الأول: الأنظمة الخبيرة</h3>
+                </div>
+
+                <div id="q1" class="question-card" data-dimension="expert" data-qid="1">
+                    <div class="question-text">
+                        <span class="q-number">1</span>
+                        تستخدم الشركة أنظمة خبيرة لدعم اتخاذ القرارات المحاسبية.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q1" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q1" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q1" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q1" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q1" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q2" class="question-card" data-dimension="expert" data-qid="2">
+                    <div class="question-text">
+                        <span class="q-number">2</span>
+                        تساعد الأنظمة الخبيرة في تقديم حلول سريعة للمشكلات المحاسبية المعقدة.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q2" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q2" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q2" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q2" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q2" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q3" class="question-card" data-dimension="expert" data-qid="3">
+                    <div class="question-text">
+                        <span class="q-number">3</span>
+                        تسهم الأنظمة الخبيرة في تقليل الأخطاء البشرية في العمل المحاسبي.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q3" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q3" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q3" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q3" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q3" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q4" class="question-card" data-dimension="expert" data-qid="4">
+                    <div class="question-text">
+                        <span class="q-number">4</span>
+                        تعتمد الشركة على قواعد معرفية واضحة عند معالجة البيانات المالية والمحاسبية.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q4" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q4" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q4" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q4" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q4" value="1"><span>لا أوافق بشدة</span></label>
                     </div>
                 </div>
             </div>
 
-            <!-- Mills -->
-            <div class="company-card" onclick="selectCompany('mills')">
-                <div class="company-card-icon" style="background: linear-gradient(135deg, #b8853a, #d4a373);">
-                    <i class="fas fa-wheat-alt"></i>
+            <!-- البعد الثاني: تعلم الآلة -->
+            <div class="dimension-block">
+                <div class="dimension-header ml">
+                    <i class="fas fa-microchip"></i>
+                    <h3>البعد الثاني: تعلم الآلة</h3>
                 </div>
-                <div class="company-card-info">
-                    <h3>الشركة اليمنية للمطاحن</h3>
-                    <p class="company-short">وصوامع الغلال</p>
-                    <div class="company-card-badge">
-                        <i class="fas fa-arrow-left"></i>
-                        اضغط للاختيار
+
+                <div id="q5" class="question-card" data-dimension="ml" data-qid="5">
+                    <div class="question-text">
+                        <span class="q-number">5</span>
+                        تستخدم الشركة تطبيقات تعلم الآلة في تحليل البيانات المالية والمحاسبية.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q5" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q5" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q5" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q5" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q5" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q6" class="question-card" data-dimension="ml" data-qid="6">
+                    <div class="question-text">
+                        <span class="q-number">6</span>
+                        تسهم تقنيات تعلم الآلة في أتمتة بعض المهام المحاسبية الروتينية.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q6" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q6" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q6" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q6" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q6" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q7" class="question-card" data-dimension="ml" data-qid="7">
+                    <div class="question-text">
+                        <span class="q-number">7</span>
+                        تساعد تطبيقات تعلم الآلة في التنبؤ بالنتائج أو المؤشرات المالية المستقبلية.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q7" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q7" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q7" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q7" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q7" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q8" class="question-card" data-dimension="ml" data-qid="8">
+                    <div class="question-text">
+                        <span class="q-number">8</span>
+                        تسهم تقنيات تعلم الآلة في رفع كفاءة معالجة كميات كبيرة من البيانات المحاسبية.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q8" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q8" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q8" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q8" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q8" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- البعد الثالث: الشبكات العصبية -->
+            <div class="dimension-block">
+                <div class="dimension-header nn">
+                    <i class="fas fa-network-wired"></i>
+                    <h3>البعد الثالث: الشبكات العصبية الاصطناعية</h3>
+                </div>
+
+                <div id="q9" class="question-card" data-dimension="nn" data-qid="9">
+                    <div class="question-text">
+                        <span class="q-number">9</span>
+                        تستخدم الشركة تقنيات قادرة على اكتشاف الأنماط غير العادية في البيانات المالية.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q9" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q9" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q9" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q9" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q9" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q10" class="question-card" data-dimension="nn" data-qid="10">
+                    <div class="question-text">
+                        <span class="q-number">10</span>
+                        تساعد الشبكات العصبية الاصطناعية في كشف الغش أو الاحتيال المالي.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q10" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q10" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q10" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q10" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q10" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q11" class="question-card" data-dimension="nn" data-qid="11">
+                    <div class="question-text">
+                        <span class="q-number">11</span>
+                        تسهم الشبكات العصبية الاصطناعية في تحسين دقة التحليل المالي والمحاسبي.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q11" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q11" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q11" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q11" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q11" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q12" class="question-card" data-dimension="nn" data-qid="12">
+                    <div class="question-text">
+                        <span class="q-number">12</span>
+                        تدعم هذه التقنيات قدرة الشركة على تحليل البيانات المعقدة بصورة أكثر فاعلية.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q12" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q12" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q12" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q12" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q12" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- البعد الرابع: الخوارزميات الجينية -->
+            <div class="dimension-block">
+                <div class="dimension-header genetic">
+                    <i class="fas fa-dna"></i>
+                    <h3>البعد الرابع: الخوارزميات الجينية</h3>
+                </div>
+
+                <div id="q13" class="question-card" data-dimension="genetic" data-qid="13">
+                    <div class="question-text">
+                        <span class="q-number">13</span>
+                        تستخدم الشركة تقنيات ذكية للمفاضلة بين البدائل المحاسبية والمالية.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q13" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q13" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q13" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q13" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q13" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q14" class="question-card" data-dimension="genetic" data-qid="14">
+                    <div class="question-text">
+                        <span class="q-number">14</span>
+                        تساعد الخوارزميات الجينية في الوصول إلى حلول مثلى للمشكلات المالية.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q14" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q14" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q14" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q14" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q14" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q15" class="question-card" data-dimension="genetic" data-qid="15">
+                    <div class="question-text">
+                        <span class="q-number">15</span>
+                        تسهم هذه التقنيات في تحسين تخصيص الموارد داخل الشركة.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q15" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q15" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q15" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q15" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q15" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q16" class="question-card" data-dimension="genetic" data-qid="16">
+                    <div class="question-text">
+                        <span class="q-number">16</span>
+                        تساعد الخوارزميات الجينية في خفض التكاليف وتحسين الكفاءة التشغيلية.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q16" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q16" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q16" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q16" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q16" value="1"><span>لا أوافق بشدة</span></label>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="selector-footer">
-            <button class="btn btn-outline" onclick="showAdminLogin()">
+        <!-- ========== المحور الثاني: جودة المعلومات المحاسبية ========== -->
+        <div class="section">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2 class="section-title">محور جودة المعلومات المحاسبية</h2>
+            </div>
+
+            <!-- البعد الأول: الملاءمة -->
+            <div class="dimension-block">
+                <div class="dimension-header relevance">
+                    <i class="fas fa-bullseye"></i>
+                    <h3>البعد الأول: الملاءمة</h3>
+                </div>
+
+                <div id="q17" class="question-card" data-dimension="relevance" data-qid="17">
+                    <div class="question-text">
+                        <span class="q-number">17</span>
+                        تسهم تقنيات الذكاء الاصطناعي في توفير معلومات محاسبية مفيدة لاتخاذ القرار.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q17" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q17" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q17" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q17" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q17" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q18" class="question-card" data-dimension="relevance" data-qid="18">
+                    <div class="question-text">
+                        <span class="q-number">18</span>
+                        تساعد التقنيات الذكية في تقديم معلومات محاسبية ذات قيمة تنبؤية للمستقبل.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q18" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q18" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q18" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q18" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q18" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q19" class="question-card" data-dimension="relevance" data-qid="19">
+                    <div class="question-text">
+                        <span class="q-number">19</span>
+                        ترفع تطبيقات الذكاء الاصطناعي من قدرة المعلومات المحاسبية على تأكيد التوقعات السابقة.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q19" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q19" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q19" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q19" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q19" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- البعد الثاني: التمثيل الصادق -->
+            <div class="dimension-block">
+                <div class="dimension-header faithful">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>البعد الثاني: التمثيل الصادق</h3>
+                </div>
+
+                <div id="q20" class="question-card" data-dimension="faithful" data-qid="20">
+                    <div class="question-text">
+                        <span class="q-number">20</span>
+                        يساهم استخدام الذكاء الاصطناعي في تقليل الأخطاء الجوهرية في المعلومات المحاسبية.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q20" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q20" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q20" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q20" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q20" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q21" class="question-card" data-dimension="faithful" data-qid="21">
+                    <div class="question-text">
+                        <span class="q-number">21</span>
+                        يساعد الذكاء الاصطناعي في عرض المعلومات المحاسبية بصورة أكثر حياداً وموضوعية.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q21" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q21" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q21" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q21" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q21" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q22" class="question-card" data-dimension="faithful" data-qid="22">
+                    <div class="question-text">
+                        <span class="q-number">22</span>
+                        يسهم الذكاء الاصطناعي في تحسين اكتمال المعلومات المحاسبية ودقتها.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q22" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q22" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q22" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q22" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q22" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- البعد الثالث: المقارنة -->
+            <div class="dimension-block">
+                <div class="dimension-header comparability">
+                    <i class="fas fa-chart-bar"></i>
+                    <h3>البعد الثالث: المقارنة</h3>
+                </div>
+
+                <div id="q23" class="question-card" data-dimension="comparability" data-qid="23">
+                    <div class="question-text">
+                        <span class="q-number">23</span>
+                        تساعد تقنيات الذكاء الاصطناعي في توحيد معالجة البيانات المحاسبية داخل الشركة.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q23" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q23" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q23" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q23" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q23" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q24" class="question-card" data-dimension="comparability" data-qid="24">
+                    <div class="question-text">
+                        <span class="q-number">24</span>
+                        تسهم هذه التقنيات في تسهيل مقارنة الأداء المالي بين الفترات المختلفة.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q24" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q24" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q24" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q24" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q24" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q25" class="question-card" data-dimension="comparability" data-qid="25">
+                    <div class="question-text">
+                        <span class="q-number">25</span>
+                        تعزز تطبيقات الذكاء الاصطناعي إمكانية مقارنة بيانات الشركة مع شركات أخرى.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q25" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q25" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q25" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q25" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q25" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- البعد الرابع: القابلية للتحقق -->
+            <div class="dimension-block">
+                <div class="dimension-header verifiability">
+                    <i class="fas fa-search"></i>
+                    <h3>البعد الرابع: القابلية للتحقق</h3>
+                </div>
+
+                <div id="q26" class="question-card" data-dimension="verifiability" data-qid="26">
+                    <div class="question-text">
+                        <span class="q-number">26</span>
+                        تسهم تقنيات الذكاء الاصطناعي في تسهيل فحص البيانات والتحقق من صحتها.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q26" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q26" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q26" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q26" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q26" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q27" class="question-card" data-dimension="verifiability" data-qid="27">
+                    <div class="question-text">
+                        <span class="q-number">27</span>
+                        تساعد الأنظمة الذكية في دعم أعمال التدقيق والمراجعة الداخلية.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q27" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q27" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q27" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q27" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q27" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q28" class="question-card" data-dimension="verifiability" data-qid="28">
+                    <div class="question-text">
+                        <span class="q-number">28</span>
+                        تزيد تطبيقات الذكاء الاصطناعي من موثوقية النتائج المحاسبية عند مراجعتها.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q28" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q28" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q28" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q28" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q28" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- البعد الخامس: التوقيت المناسب -->
+            <div class="dimension-block">
+                <div class="dimension-header timeliness">
+                    <i class="fas fa-clock"></i>
+                    <h3>البعد الخامس: التوقيت المناسب</h3>
+                </div>
+
+                <div id="q29" class="question-card" data-dimension="timeliness" data-qid="29">
+                    <div class="question-text">
+                        <span class="q-number">29</span>
+                        تساعد تقنيات الذكاء الاصطناعي في سرعة إعداد التقارير المحاسبية.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q29" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q29" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q29" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q29" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q29" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q30" class="question-card" data-dimension="timeliness" data-qid="30">
+                    <div class="question-text">
+                        <span class="q-number">30</span>
+                        تسهم التقنيات الذكية في توفير المعلومات المحاسبية في الوقت المناسب لاتخاذ القرار.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q30" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q30" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q30" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q30" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q30" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q31" class="question-card" data-dimension="timeliness" data-qid="31">
+                    <div class="question-text">
+                        <span class="q-number">31</span>
+                        تدعم أنظمة الذكاء الاصطناعي تحديث البيانات المالية بشكل مستمر أو فوري.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q31" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q31" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q31" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q31" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q31" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- البعد السادس: القابلية للفهم -->
+            <div class="dimension-block">
+                <div class="dimension-header understandability">
+                    <i class="fas fa-eye"></i>
+                    <h3>البعد السادس: القابلية للفهم</h3>
+                </div>
+
+                <div id="q32" class="question-card" data-dimension="understandability" data-qid="32">
+                    <div class="question-text">
+                        <span class="q-number">32</span>
+                        تسهم تقنيات الذكاء الاصطناعي في عرض المعلومات المحاسبية بصورة واضحة ومنظمة.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q32" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q32" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q32" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q32" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q32" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q33" class="question-card" data-dimension="understandability" data-qid="33">
+                    <div class="question-text">
+                        <span class="q-number">33</span>
+                        تساعد الأنظمة الذكية في تبسيط البيانات المالية المعقدة للمستخدمين.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q33" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q33" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q33" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q33" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q33" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+
+                <div id="q34" class="question-card" data-dimension="understandability" data-qid="34">
+                    <div class="question-text">
+                        <span class="q-number">34</span>
+                        تؤدي تطبيقات الذكاء الاصطناعي إلى تحسين سهولة فهم التقارير المحاسبية.
+                    </div>
+                    <div class="options-group">
+                        <label><input type="radio" name="q34" value="5"><span>أوافق بشدة</span></label>
+                        <label><input type="radio" name="q34" value="4"><span>أوافق</span></label>
+                        <label><input type="radio" name="q34" value="3"><span>محايد</span></label>
+                        <label><input type="radio" name="q34" value="2"><span>لا أوافق</span></label>
+                        <label><input type="radio" name="q34" value="1"><span>لا أوافق بشدة</span></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== BUTTONS ====== -->
+        <div class="action-buttons">
+            <button class="btn btn-primary btn-large" id="submitSurvey">
+                <i class="fas fa-paper-plane"></i>
+                إرسال الاستبيان
+            </button>
+            <button class="btn btn-outline btn-large" id="goToAdminBtn">
                 <i class="fas fa-user-shield"></i>
                 لوحة المشرف
             </button>
         </div>
-    </div>
-</div>
 
-<!-- ========================================================== -->
-<!-- ================== SURVEY VIEW ========================== -->
-<!-- ========================================================== -->
-<div id="surveyView" class="container hidden">
-    <!-- Company Banner -->
-    <div class="company-banner" id="companyBanner">
-        <div class="banner-left">
-            <div class="banner-icon" id="bannerIcon">
-                <i class="fas fa-industry"></i>
-            </div>
-            <div class="banner-text">
-                <span class="banner-label">الشركة:</span>
-                <span class="banner-name" id="bannerName">شركة الألبان والأغذية الوطنية</span>
-                <span class="banner-sub" id="bannerSub">ناد فود</span>
-            </div>
-        </div>
-        <button class="btn btn-outline-light" onclick="showCompanySelector()">
-            <i class="fas fa-exchange-alt"></i>
-            تغيير
-        </button>
-    </div>
-
-    <!-- Header -->
-    <div class="survey-header">
-        <div class="logo-area">
-            <div class="logo-icon">
-                <i class="fas fa-robot"></i>
-            </div>
-            <div>
-                <h1>تأثير تقنيات الذكاء الاصطناعي</h1>
-                <h2>على جودة المعلومات المحاسبية</h2>
-            </div>
-        </div>
-        <div class="header-info">
-            <span><i class="fas fa-building"></i> الشركات الصناعية اليمنية</span>
-            <span><i class="fas fa-calendar-alt"></i> 2024</span>
+        <div class="footer-note">
+            <p><i class="fas fa-heart" style="color:#C44545;"></i> شكراً لتعاونكم</p>
         </div>
     </div>
 
-    <!-- Welcome Card -->
-    <div class="welcome-card">
-        <div class="welcome-icon">
-            <i class="fas fa-hand-peace"></i>
-        </div>
-        <div class="welcome-content">
-            <h3>السادة / أفراد عينة الدراسة المحترمين</h3>
-            <p class="greeting">السلام عليكم ورحمة الله وبركاته</p>
-            <p class="purpose">
-                تهدف هذه الاستبانة إلى جمع البيانات اللازمة للتعرف إلى مستوى استخدام تقنيات الذكاء الاصطناعي 
-                وقياس أثرها على جودة المعلومات المحاسبية في الشركات الصناعية اليمنية.
-            </p>
-            <div class="privacy-badge">
-                <i class="fas fa-shield-alt"></i>
-                <span>جميع البيانات ستُستخدم لأغراض البحث العلمي فقط وستُعامل بسرية تامة</span>
-            </div>
-        </div>
-    </div>
+    <!-- ============================================================ -->
+    <!-- =================== ADMIN LOGIN ============================= -->
+    <!-- ============================================================ -->
+    <div id="loginView" class="container hidden">
+        <div class="login-wrapper">
+            <div class="login-box">
+                <div class="login-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h2>لوحة تحكم المشرف</h2>
+                <p class="login-subtitle">يرجى إدخال بيانات الدخول</p>
+                
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="adminUser" placeholder="اسم المستخدم" value="admin">
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-key"></i>
+                    <input type="password" id="adminPass" placeholder="كلمة المرور">
+                </div>
 
-    <!-- Instructions -->
-    <div class="instructions-card">
-        <div class="instructions-header">
-            <i class="fas fa-list-check"></i>
-            <h4>تعليمات الإجابة</h4>
-        </div>
-        <p>يرجى قراءة كل عبارة بعناية، ثم اختيار درجة الموافقة المناسبة وفق المقياس التالي:</p>
-        <div class="scale-indicator">
-            <span class="scale-item scale-5"><span class="scale-dot"></span> أوافق بشدة</span>
-            <span class="scale-item scale-4"><span class="scale-dot"></span> أوافق</span>
-            <span class="scale-item scale-3"><span class="scale-dot"></span> محايد</span>
-            <span class="scale-item scale-2"><span class="scale-dot"></span> لا أوافق</span>
-            <span class="scale-item scale-1"><span class="scale-dot"></span> لا أوافق بشدة</span>
-        </div>
-    </div>
+                <button class="btn btn-primary btn-large" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    دخول
+                </button>
 
-    <!-- ====== PERSONAL DATA ====== -->
-    <div class="section">
-        <div class="section-header">
-            <span class="section-number">01</span>
-            <h2 class="section-title">البيانات الشخصية</h2>
-        </div>
-
-        <div class="personal-data-grid">
-            <div class="personal-card">
-                <div class="card-icon" style="background: linear-gradient(135deg, #2E86AB, #1a6a8a);">
-                    <i class="fas fa-venus-mars"></i>
-                </div>
-                <div class="card-content">
-                    <label>الجنس</label>
-                    <div class="radio-group">
-                        <label class="radio-option"><input type="radio" name="gender" value="ذكر"><span class="radio-custom"></span>ذكر</label>
-                        <label class="radio-option"><input type="radio" name="gender" value="أنثى"><span class="radio-custom"></span>أنثى</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="personal-card">
-                <div class="card-icon" style="background: linear-gradient(135deg, #6A4C93, #4a2f6a);">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <div class="card-content">
-                    <label>المؤهل العلمي</label>
-                    <div class="radio-group">
-                        <label class="radio-option"><input type="radio" name="qualification" value="دبلوم"><span class="radio-custom"></span>دبلوم</label>
-                        <label class="radio-option"><input type="radio" name="qualification" value="بكالوريوس"><span class="radio-custom"></span>بكالوريوس</label>
-                        <label class="radio-option"><input type="radio" name="qualification" value="ماجستير"><span class="radio-custom"></span>ماجستير</label>
-                        <label class="radio-option"><input type="radio" name="qualification" value="دكتوراه"><span class="radio-custom"></span>دكتوراه</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="personal-card">
-                <div class="card-icon" style="background: linear-gradient(135deg, #E07A5F, #b85a3f);">
-                    <i class="fas fa-briefcase"></i>
-                </div>
-                <div class="card-content">
-                    <label>المسمى الوظيفي</label>
-                    <div class="radio-group">
-                        <label class="radio-option"><input type="radio" name="jobTitle" value="محاسب"><span class="radio-custom"></span>محاسب</label>
-                        <label class="radio-option"><input type="radio" name="jobTitle" value="مدقق حسابات"><span class="radio-custom"></span>مدقق حسابات</label>
-                        <label class="radio-option"><input type="radio" name="jobTitle" value="مدير مالي"><span class="radio-custom"></span>مدير مالي</label>
-                        <label class="radio-option"><input type="radio" name="jobTitle" value="موظف تقنية معلومات"><span class="radio-custom"></span>موظف تقنية معلومات</label>
-                        <label class="radio-option"><input type="radio" name="jobTitle" value="أخرى"><span class="radio-custom"></span>أخرى</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="personal-card">
-                <div class="card-icon" style="background: linear-gradient(135deg, #3D8C7A, #2a6a5a);">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <div class="card-content">
-                    <label>سنوات الخبرة</label>
-                    <div class="radio-group">
-                        <label class="radio-option"><input type="radio" name="experience" value="أقل من 5 سنوات"><span class="radio-custom"></span>أقل من 5 سنوات</label>
-                        <label class="radio-option"><input type="radio" name="experience" value="5-10 سنوات"><span class="radio-custom"></span>5-10 سنوات</label>
-                        <label class="radio-option"><input type="radio" name="experience" value="11-15 سنة"><span class="radio-custom"></span>11-15 سنة</label>
-                        <label class="radio-option"><input type="radio" name="experience" value="أكثر من 15 سنة"><span class="radio-custom"></span>أكثر من 15 سنة</label>
-                    </div>
+                <div class="login-options">
+                    <button class="btn btn-outline" id="backToSurveyFromLogin">
+                        <i class="fas fa-arrow-right"></i>
+                        العودة للاستبيان
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ====== QUESTIONS ====== -->
-    <div class="section">
-        <div class="section-header">
-            <span class="section-number">02</span>
-            <h2 class="section-title">محور تقنيات الذكاء الاصطناعي</h2>
-        </div>
-
-        <!-- البعد الأول: الأنظمة الخبيرة -->
-        <div class="dimension-block">
-            <div class="dimension-header expert">
-                <i class="fas fa-brain"></i>
-                <h3>البعد الأول: الأنظمة الخبيرة</h3>
+    <!-- ============================================================ -->
+    <!-- =================== ADMIN DASHBOARD ======================== -->
+    <!-- ============================================================ -->
+    <div id="adminView" class="container hidden">
+        <div class="admin-header">
+            <div class="admin-title">
+                <i class="fas fa-chart-pie"></i>
+                <h2>لوحة تحكم المشرف</h2>
             </div>
-            <div id="q1" class="question-card" data-dimension="expert" data-qid="1">
-                <div class="question-text"><span class="q-number">1</span> تستخدم الشركة أنظمة خبيرة لدعم اتخاذ القرارات المحاسبية.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q1" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q1" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q1" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q1" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q1" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q2" class="question-card" data-dimension="expert" data-qid="2">
-                <div class="question-text"><span class="q-number">2</span> تساعد الأنظمة الخبيرة في تقديم حلول سريعة للمشكلات المحاسبية المعقدة.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q2" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q2" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q2" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q2" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q2" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q3" class="question-card" data-dimension="expert" data-qid="3">
-                <div class="question-text"><span class="q-number">3</span> تسهم الأنظمة الخبيرة في تقليل الأخطاء البشرية في العمل المحاسبي.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q3" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q3" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q3" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q3" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q3" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q4" class="question-card" data-dimension="expert" data-qid="4">
-                <div class="question-text"><span class="q-number">4</span> تعتمد الشركة على قواعد معرفية واضحة عند معالجة البيانات المالية والمحاسبية.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q4" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q4" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q4" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q4" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q4" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
+            <div class="admin-actions">
+                <button class="btn btn-outline" id="backToSurveyFromAdmin">
+                    <i class="fas fa-arrow-right"></i>
+                    الاستبيان
+                </button>
+                <button class="btn btn-danger" id="logoutAdmin">
+                    <i class="fas fa-sign-out-alt"></i>
+                    خروج
+                </button>
             </div>
         </div>
 
-        <!-- البعد الثاني: تعلم الآلة -->
-        <div class="dimension-block">
-            <div class="dimension-header ml">
-                <i class="fas fa-microchip"></i>
-                <h3>البعد الثاني: تعلم الآلة</h3>
-            </div>
-            <div id="q5" class="question-card" data-dimension="ml" data-qid="5">
-                <div class="question-text"><span class="q-number">5</span> تستخدم الشركة تطبيقات تعلم الآلة في تحليل البيانات المالية والمحاسبية.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q5" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q5" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q5" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q5" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q5" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q6" class="question-card" data-dimension="ml" data-qid="6">
-                <div class="question-text"><span class="q-number">6</span> تسهم تقنيات تعلم الآلة في أتمتة بعض المهام المحاسبية الروتينية.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q6" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q6" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q6" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q6" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q6" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q7" class="question-card" data-dimension="ml" data-qid="7">
-                <div class="question-text"><span class="q-number">7</span> تساعد تطبيقات تعلم الآلة في التنبؤ بالنتائج أو المؤشرات المالية المستقبلية.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q7" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q7" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q7" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q7" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q7" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q8" class="question-card" data-dimension="ml" data-qid="8">
-                <div class="question-text"><span class="q-number">8</span> تسهم تقنيات تعلم الآلة في رفع كفاءة معالجة كميات كبيرة من البيانات المحاسبية.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q8" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q8" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q8" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q8" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q8" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-        </div>
+        <!-- Stats -->
+        <div class="stats-grid" id="statsGrid"></div>
 
-        <!-- البعد الثالث: الشبكات العصبية -->
-        <div class="dimension-block">
-            <div class="dimension-header nn">
-                <i class="fas fa-network-wired"></i>
-                <h3>البعد الثالث: الشبكات العصبية الاصطناعية</h3>
-            </div>
-            <div id="q9" class="question-card" data-dimension="nn" data-qid="9">
-                <div class="question-text"><span class="q-number">9</span> تستخدم الشركة تقنيات قادرة على اكتشاف الأنماط غير العادية في البيانات المالية.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q9" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q9" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q9" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q9" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q9" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q10" class="question-card" data-dimension="nn" data-qid="10">
-                <div class="question-text"><span class="q-number">10</span> تساعد الشبكات العصبية الاصطناعية في كشف الغش أو الاحتيال المالي.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q10" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q10" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q10" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q10" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q10" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q11" class="question-card" data-dimension="nn" data-qid="11">
-                <div class="question-text"><span class="q-number">11</span> تسهم الشبكات العصبية الاصطناعية في تحسين دقة التحليل المالي والمحاسبي.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q11" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q11" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q11" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q11" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q11" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q12" class="question-card" data-dimension="nn" data-qid="12">
-                <div class="question-text"><span class="q-number">12</span> تدعم هذه التقنيات قدرة الشركة على تحليل البيانات المعقدة بصورة أكثر فاعلية.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q12" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q12" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q12" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q12" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q12" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-        </div>
-
-        <!-- البعد الرابع: الخوارزميات الجينية -->
-        <div class="dimension-block">
-            <div class="dimension-header genetic">
-                <i class="fas fa-dna"></i>
-                <h3>البعد الرابع: الخوارزميات الجينية</h3>
-            </div>
-            <div id="q13" class="question-card" data-dimension="genetic" data-qid="13">
-                <div class="question-text"><span class="q-number">13</span> تستخدم الشركة تقنيات ذكية للمفاضلة بين البدائل المحاسبية والمالية.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q13" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q13" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q13" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q13" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q13" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q14" class="question-card" data-dimension="genetic" data-qid="14">
-                <div class="question-text"><span class="q-number">14</span> تساعد الخوارزميات الجينية في الوصول إلى حلول مثلى للمشكلات المالية.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q14" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q14" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q14" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q14" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q14" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q15" class="question-card" data-dimension="genetic" data-qid="15">
-                <div class="question-text"><span class="q-number">15</span> تسهم هذه التقنيات في تحسين تخصيص الموارد داخل الشركة.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q15" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q15" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q15" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q15" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q15" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q16" class="question-card" data-dimension="genetic" data-qid="16">
-                <div class="question-text"><span class="q-number">16</span> تساعد الخوارزميات الجينية في خفض التكاليف وتحسين الكفاءة التشغيلية.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q16" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q16" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q16" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q16" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q16" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ====== المحور الثاني: جودة المعلومات المحاسبية ====== -->
-    <div class="section">
-        <div class="section-header">
-            <span class="section-number">03</span>
-            <h2 class="section-title">محور جودة المعلومات المحاسبية</h2>
-        </div>
-
-        <!-- الملاءمة -->
-        <div class="dimension-block">
-            <div class="dimension-header relevance">
-                <i class="fas fa-bullseye"></i>
-                <h3>البعد الأول: الملاءمة</h3>
-            </div>
-            <div id="q17" class="question-card" data-dimension="relevance" data-qid="17">
-                <div class="question-text"><span class="q-number">17</span> تسهم تقنيات الذكاء الاصطناعي في توفير معلومات محاسبية مفيدة لاتخاذ القرار.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q17" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q17" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q17" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q17" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q17" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q18" class="question-card" data-dimension="relevance" data-qid="18">
-                <div class="question-text"><span class="q-number">18</span> تساعد التقنيات الذكية في تقديم معلومات محاسبية ذات قيمة تنبؤية للمستقبل.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q18" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q18" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q18" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q18" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q18" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q19" class="question-card" data-dimension="relevance" data-qid="19">
-                <div class="question-text"><span class="q-number">19</span> ترفع تطبيقات الذكاء الاصطناعي من قدرة المعلومات المحاسبية على تأكيد التوقعات السابقة.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q19" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q19" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q19" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q19" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q19" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-        </div>
-
-        <!-- التمثيل الصادق -->
-        <div class="dimension-block">
-            <div class="dimension-header faithful">
-                <i class="fas fa-check-circle"></i>
-                <h3>البعد الثاني: التمثيل الصادق</h3>
-            </div>
-            <div id="q20" class="question-card" data-dimension="faithful" data-qid="20">
-                <div class="question-text"><span class="q-number">20</span> يساهم استخدام الذكاء الاصطناعي في تقليل الأخطاء الجوهرية في المعلومات المحاسبية.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q20" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q20" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q20" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q20" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q20" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q21" class="question-card" data-dimension="faithful" data-qid="21">
-                <div class="question-text"><span class="q-number">21</span> يساعد الذكاء الاصطناعي في عرض المعلومات المحاسبية بصورة أكثر حياداً وموضوعية.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q21" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q21" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q21" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q21" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q21" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q22" class="question-card" data-dimension="faithful" data-qid="22">
-                <div class="question-text"><span class="q-number">22</span> يسهم الذكاء الاصطناعي في تحسين اكتمال المعلومات المحاسبية ودقتها.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q22" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q22" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q22" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q22" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q22" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-        </div>
-
-        <!-- المقارنة -->
-        <div class="dimension-block">
-            <div class="dimension-header comparability">
-                <i class="fas fa-chart-bar"></i>
-                <h3>البعد الثالث: المقارنة</h3>
-            </div>
-            <div id="q23" class="question-card" data-dimension="comparability" data-qid="23">
-                <div class="question-text"><span class="q-number">23</span> تساعد تقنيات الذكاء الاصطناعي في توحيد معالجة البيانات المحاسبية داخل الشركة.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q23" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q23" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q23" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q23" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q23" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q24" class="question-card" data-dimension="comparability" data-qid="24">
-                <div class="question-text"><span class="q-number">24</span> تسهم هذه التقنيات في تسهيل مقارنة الأداء المالي بين الفترات المختلفة.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q24" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q24" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q24" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q24" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q24" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q25" class="question-card" data-dimension="comparability" data-qid="25">
-                <div class="question-text"><span class="q-number">25</span> تعزز تطبيقات الذكاء الاصطناعي إمكانية مقارنة بيانات الشركة مع شركات أخرى.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q25" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q25" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q25" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q25" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q25" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-        </div>
-
-        <!-- القابلية للتحقق -->
-        <div class="dimension-block">
-            <div class="dimension-header verifiability">
+        <!-- Filters -->
+        <div class="filters-bar">
+            <div class="filter-group">
                 <i class="fas fa-search"></i>
-                <h3>البعد الرابع: القابلية للتحقق</h3>
+                <input type="text" id="tableSearch" placeholder="بحث في الجدول...">
             </div>
-            <div id="q26" class="question-card" data-dimension="verifiability" data-qid="26">
-                <div class="question-text"><span class="q-number">26</span> تسهم تقنيات الذكاء الاصطناعي في تسهيل فحص البيانات والتحقق من صحتها.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q26" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q26" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q26" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q26" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q26" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
+            <div class="filter-group">
+                <select id="filterGender">
+                    <option value="">جميع الجنسين</option>
+                    <option value="ذكر">ذكر</option>
+                    <option value="أنثى">أنثى</option>
+                </select>
             </div>
-            <div id="q27" class="question-card" data-dimension="verifiability" data-qid="27">
-                <div class="question-text"><span class="q-number">27</span> تساعد الأنظمة الذكية في دعم أعمال التدقيق والمراجعة الداخلية.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q27" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q27" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q27" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q27" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q27" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
+            <div class="filter-group">
+                <select id="filterQual">
+                    <option value="">جميع المؤهلات</option>
+                    <option value="دبلوم">دبلوم</option>
+                    <option value="بكالوريوس">بكالوريوس</option>
+                    <option value="ماجستير">ماجستير</option>
+                    <option value="دكتوراه">دكتوراه</option>
+                </select>
             </div>
-            <div id="q28" class="question-card" data-dimension="verifiability" data-qid="28">
-                <div class="question-text"><span class="q-number">28</span> تزيد تطبيقات الذكاء الاصطناعي من موثوقية النتائج المحاسبية عند مراجعتها.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q28" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q28" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q28" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q28" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q28" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-        </div>
-
-        <!-- التوقيت المناسب -->
-        <div class="dimension-block">
-            <div class="dimension-header timeliness">
-                <i class="fas fa-clock"></i>
-                <h3>البعد الخامس: التوقيت المناسب</h3>
-            </div>
-            <div id="q29" class="question-card" data-dimension="timeliness" data-qid="29">
-                <div class="question-text"><span class="q-number">29</span> تساعد تقنيات الذكاء الاصطناعي في سرعة إعداد التقارير المحاسبية.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q29" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q29" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q29" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q29" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q29" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q30" class="question-card" data-dimension="timeliness" data-qid="30">
-                <div class="question-text"><span class="q-number">30</span> تسهم التقنيات الذكية في توفير المعلومات المحاسبية في الوقت المناسب لاتخاذ القرار.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q30" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q30" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q30" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q30" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q30" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q31" class="question-card" data-dimension="timeliness" data-qid="31">
-                <div class="question-text"><span class="q-number">31</span> تدعم أنظمة الذكاء الاصطناعي تحديث البيانات المالية بشكل مستمر أو فوري.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q31" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q31" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q31" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q31" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q31" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-        </div>
-
-        <!-- القابلية للفهم -->
-        <div class="dimension-block">
-            <div class="dimension-header understandability">
-                <i class="fas fa-eye"></i>
-                <h3>البعد السادس: القابلية للفهم</h3>
-            </div>
-            <div id="q32" class="question-card" data-dimension="understandability" data-qid="32">
-                <div class="question-text"><span class="q-number">32</span> تسهم تقنيات الذكاء الاصطناعي في عرض المعلومات المحاسبية بصورة واضحة ومنظمة.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q32" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q32" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q32" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q32" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q32" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q33" class="question-card" data-dimension="understandability" data-qid="33">
-                <div class="question-text"><span class="q-number">33</span> تساعد الأنظمة الذكية في تبسيط البيانات المالية المعقدة للمستخدمين.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q33" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q33" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q33" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q33" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q33" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-            <div id="q34" class="question-card" data-dimension="understandability" data-qid="34">
-                <div class="question-text"><span class="q-number">34</span> تؤدي تطبيقات الذكاء الاصطناعي إلى تحسين سهولة فهم التقارير المحاسبية.</div>
-                <div class="options-group">
-                    <label><input type="radio" name="q34" value="5"><span>أوافق بشدة</span></label>
-                    <label><input type="radio" name="q34" value="4"><span>أوافق</span></label>
-                    <label><input type="radio" name="q34" value="3"><span>محايد</span></label>
-                    <label><input type="radio" name="q34" value="2"><span>لا أوافق</span></label>
-                    <label><input type="radio" name="q34" value="1"><span>لا أوافق بشدة</span></label>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ====== BUTTONS ====== -->
-    <div class="action-buttons">
-        <button class="btn btn-primary btn-large" id="submitSurvey">
-            <i class="fas fa-paper-plane"></i>
-            إرسال الإجابة
-        </button>
-        <button class="btn btn-outline btn-large" onclick="showCompanySelector()">
-            <i class="fas fa-building"></i>
-            تغيير الشركة
-        </button>
-    </div>
-
-    <div class="footer-note">
-        <p><i class="fas fa-heart" style="color:#C44545;"></i> شكراً لتعاونكم</p>
-    </div>
-</div>
-
-<!-- ========================================================== -->
-<!-- ================== ADMIN LOGIN ========================== -->
-<!-- ========================================================== -->
-<div id="loginView" class="container hidden">
-    <div class="login-wrapper">
-        <div class="login-box">
-            <div class="login-icon"><i class="fas fa-lock"></i></div>
-            <h2>لوحة تحكم المشرف</h2>
-            <p class="login-subtitle">يرجى إدخال بيانات الدخول</p>
-            <div class="input-group">
-                <i class="fas fa-user"></i>
-                <input type="text" id="adminUser" placeholder="اسم المستخدم" value="admin">
-            </div>
-            <div class="input-group">
-                <i class="fas fa-key"></i>
-                <input type="password" id="adminPass" placeholder="كلمة المرور">
-            </div>
-            <button class="btn btn-primary btn-large" id="loginBtn">
-                <i class="fas fa-sign-in-alt"></i> دخول
+            <button class="btn btn-primary" id="applyFilters">
+                <i class="fas fa-filter"></i>
+                تطبيق
             </button>
-            <div class="login-options">
-                <button class="btn btn-outline" id="backToSurveyFromLogin">
-                    <i class="fas fa-arrow-right"></i> العودة للاستبيان
+            <button class="btn btn-outline" id="resetFilters">
+                <i class="fas fa-undo"></i>
+                إعادة تعيين
+            </button>
+        </div>
+
+        <!-- Table -->
+        <div class="table-wrapper">
+            <table id="responsesTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>الجنس</th>
+                        <th>المؤهل</th>
+                        <th>المسمى</th>
+                        <th>الخبرة</th>
+                        <th>المتوسط</th>
+                        <th>التفاصيل</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Statistical Summary -->
+        <div class="stat-summary">
+            <div class="summary-header">
+                <i class="fas fa-calculator"></i>
+                <h3>الملخص الإحصائي</h3>
+            </div>
+            <div id="summaryContent"></div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-section">
+            <div class="charts-header">
+                <i class="fas fa-chart-line"></i>
+                <h3>الرسوم البيانية التفاعلية</h3>
+            </div>
+            <div class="charts-grid" id="chartContainer"></div>
+        </div>
+
+        <!-- Export -->
+        <div class="export-section">
+            <div class="export-header">
+                <i class="fas fa-download"></i>
+                <h3>تصدير البيانات والتقارير</h3>
+            </div>
+            <div class="export-buttons">
+                <button class="btn btn-success" id="exportExcel">
+                    <i class="fas fa-file-excel"></i>
+                    تصدير Excel
+                </button>
+                <button class="btn btn-primary" id="exportCSV">
+                    <i class="fas fa-file-csv"></i>
+                    تصدير CSV
+                </button>
+                <button class="btn btn-danger" id="exportPDF">
+                    <i class="fas fa-file-pdf"></i>
+                    تقرير PDF
                 </button>
             </div>
         </div>
     </div>
-</div>
 
-<!-- ========================================================== -->
-<!-- ================== ADMIN DASHBOARD ====================== -->
-<!-- ========================================================== -->
-<div id="adminView" class="container hidden">
-    <div class="admin-header">
-        <div class="admin-title">
-            <i class="fas fa-chart-pie"></i>
-            <h2>لوحة تحكم المشرف</h2>
-        </div>
-        <div class="admin-actions">
-            <button class="btn btn-outline" id="backToSurveyFromAdmin">
-                <i class="fas fa-arrow-right"></i> الاستبيان
-            </button>
-            <button class="btn btn-danger" id="logoutAdmin">
-                <i class="fas fa-sign-out-alt"></i> خروج
-            </button>
-        </div>
-    </div>
-
-    <!-- Company Filter -->
-    <div class="company-filter-bar">
-        <label><i class="fas fa-building"></i> تصفية حسب الشركة:</label>
-        <div class="company-filter-buttons">
-            <button class="btn btn-primary filter-company-btn active" data-company="all" onclick="filterCompany('all')">
-                <i class="fas fa-asterisk"></i> الكل
-            </button>
-            <button class="btn btn-outline filter-company-btn" data-company="nado" onclick="filterCompany('nado')">
-                <i class="fas fa-industry"></i> ناد فود
-            </button>
-            <button class="btn btn-outline filter-company-btn" data-company="mills" onclick="filterCompany('mills')">
-                <i class="fas fa-wheat-alt"></i> المطاحن
-            </button>
-        </div>
-    </div>
-
-    <!-- Stats -->
-    <div class="stats-grid" id="statsGrid"></div>
-
-    <!-- Filters -->
-    <div class="filters-bar">
-        <div class="filter-group">
-            <i class="fas fa-search"></i>
-            <input type="text" id="tableSearch" placeholder="بحث في الجدول...">
-        </div>
-        <div class="filter-group">
-            <select id="filterGender">
-                <option value="">جميع الجنسين</option>
-                <option value="ذكر">ذكر</option>
-                <option value="أنثى">أنثى</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <select id="filterQual">
-                <option value="">جميع المؤهلات</option>
-                <option value="دبلوم">دبلوم</option>
-                <option value="بكالوريوس">بكالوريوس</option>
-                <option value="ماجستير">ماجستير</option>
-                <option value="دكتوراه">دكتوراه</option>
-            </select>
-        </div>
-        <button class="btn btn-primary" id="applyFilters"><i class="fas fa-filter"></i> تطبيق</button>
-        <button class="btn btn-outline" id="resetFilters"><i class="fas fa-undo"></i> إعادة تعيين</button>
-    </div>
-
-    <!-- Table -->
-    <div class="table-wrapper">
-        <table id="responsesTable">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>الشركة</th>
-                    <th>الجنس</th>
-                    <th>المؤهل</th>
-                    <th>المسمى</th>
-                    <th>الخبرة</th>
-                    <th>المتوسط</th>
-                    <th>التفاصيل</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody"></tbody>
-        </table>
-    </div>
-
-    <!-- Statistical Summary -->
-    <div class="stat-summary">
-        <div class="summary-header">
-            <i class="fas fa-calculator"></i>
-            <h3>الملخص الإحصائي</h3>
-            <span id="summaryCompanyLabel" style="margin-right:auto;font-size:0.85rem;color:#4a6680;">
-                <i class="fas fa-building"></i> جميع الشركات
-            </span>
-        </div>
-        <div id="summaryContent"></div>
-    </div>
-
-    <!-- Comparison -->
-    <div class="comparison-section">
-        <div class="comparison-header">
-            <i class="fas fa-chart-simple"></i>
-            <h3>مقارنة بين الشركات</h3>
-        </div>
-        <div class="comparison-grid" id="comparisonContainer"></div>
-    </div>
-
-    <!-- Charts -->
-    <div class="charts-section">
-        <div class="charts-header">
-            <i class="fas fa-chart-line"></i>
-            <h3>الرسوم البيانية التفاعلية</h3>
-        </div>
-        <div class="charts-grid" id="chartContainer"></div>
-    </div>
-
-    <!-- Export -->
-    <div class="export-section">
-        <div class="export-header">
-            <i class="fas fa-download"></i>
-            <h3>تصدير البيانات والتقارير</h3>
-        </div>
-        <div class="export-buttons">
-            <button class="btn btn-success" id="exportExcel"><i class="fas fa-file-excel"></i> تصدير Excel</button>
-            <button class="btn btn-primary" id="exportCSV"><i class="fas fa-file-csv"></i> تصدير CSV</button>
-            <button class="btn btn-danger" id="exportPDF"><i class="fas fa-file-pdf"></i> تقرير PDF</button>
-        </div>
-    </div>
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
-</html>
-
-                                                                                                                                           </html>
+    </html>
